@@ -1,7 +1,5 @@
 var app = angular.module('giantApp', ['ngRoute']);
 
-console.log('app is ' +app);
-
 app.config(function($routeProvider){
     
     $routeProvider
@@ -23,18 +21,31 @@ app.controller('mainController', ['$scope', '$log', function($scope, $log){
 
 
 app.controller('dishesController', ['$scope', '$log', function($scope, $log){
+    var dishesContent = [{name: 'My first dish name',
+                         shortDescription: 'my f short description'},
+                        {name: 'My second dish name',
+                         shortDescription: 'my s short description'},
+                        {name: 'My thrid dish name',
+                         shortDescription: 'my t short description'},
+                        {name: 'My fourth dish name',
+                         shortDescription: 'my fourth short description'}]
+
     $scope.dishes = {
         one:{
-            name: 'My first dish name'    
+            name: dishesContent[0].name,
+            shortDescription: dishesContent[0].shortDescription
         },
         two:{
-            name: 'My second dish name'
+            name: dishesContent[1].name,
+            shortDescription: dishesContent[1].shortDescription
         } ,
         three:{
-            name: 'My third dish name'
+            name: dishesContent[2].name,
+            shortDescription: dishesContent[2].shortDescription
         },
         four:{
-            name: 'My fourth dish name'
+            name: dishesContent[3].name,
+            shortDescription: dishesContent[3].shortDescription
         }
     }  
     
