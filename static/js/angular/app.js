@@ -1,4 +1,4 @@
-var app = angular.module('giantApp', ['ngRoute']);
+var app = angular.module('giantApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap']);
 
 app.config(function($routeProvider){
     
@@ -14,7 +14,32 @@ app.config(function($routeProvider){
 });
 
 
-app.controller('mainController', ['$scope', '$log', function($scope, $log){
+app.controller('mainController', ['$scope', '$uibModal', '$log', function($scope, $uibModal, $log){
+    $scope.items = ['item1', 'item2'];
+
+    $scope.open = function(size){
+
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'content/ordernow.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                items: function(){
+                    return $scope.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem){
+            $scope.selected = selectedItem;
+        }, function(){
+            $log.info('Modal dismissed at: '+new Date());
+        });
+
+
+
+    }
     
     
 }]);
@@ -50,6 +75,22 @@ app.controller('dishesController', ['$scope', '$log', function($scope, $log){
     }  
     
 }]);
+
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items) {
+
+  $scope.items = items;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+
+  $scope.ok = function () {
+    $uibModalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});
 
 
 app.directive('dishResult', function(){
