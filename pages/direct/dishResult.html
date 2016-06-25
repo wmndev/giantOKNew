@@ -1,13 +1,20 @@
-        <div class="row">
-            <div class="col-md-7">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/700x300" alt="">
-                </a>
+<div class="row">
+   <div class="col-md-6">
+       <div id="mycarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="img/dish{{dishObject.idx}}.jpg" alt="" class="img-responsive">
+                    <div class="carousel-caption">
+                        <h2>{{ dishObject.name }}</h3>
+                        <h4>{{ dishObject.shortDescription}}</h4>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-5">
-                <h3>{{ dishObject.name }}</h3>
-                <h4>{{ dishObject.shortDescription}}</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium veniam exercitationem expedita laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur quos perspiciatis atque eveniet unde.</p>
-                <a class="btn btn-primary" href="#">Reviews</a>
-            </div>
-        </div>
+       </div>
+
+    </div>
+    <div class="col-md-6">
+        <p>{{ dishObject.description}}</p>
+        <a class="btn btn-primary" href="#">Reviews</a>
+    </div>
+</div>
