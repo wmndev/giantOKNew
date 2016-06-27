@@ -1,0 +1,35 @@
+@import url('http://fonts.googleapis.com/css?family=Oswald');
+
+body {
+    margin: 0;
+    padding: 0;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+#video-background {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+}
+
+h1 {
+    font-family: Oswald, sans-serif;
+    text-align: center;
+}
+
+#mainJumbotron {
+    color: whitesmoke !important;
+    background-color: transparent !important;
+}
+
+#orderBtn{
+    color: #fff;
+    background-color: transparent;
+    border: 2px solid;
+}
