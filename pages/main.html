@@ -1,5 +1,3 @@
-
-
 <div class="container">
 
     <video muted autoplay="" loop="" class="fillWidth fadeIn animated" id="video-background">
@@ -11,7 +9,18 @@
         <h1>The Weekly Dish</h1>
         <h2>{{dish.name}}</h2>
         <p>{{dish.description}}</p>
-        <p><a id="orderBtn" class="btn btn-default btn-lg" ng-click="open('sm')">Order Now!</a>
+        <div class="row">
+            <div class="col-lg-offset-4 col-lg-4 text-center">
+                <div class="clearfix">
+                    <div class=" inline" >
+                        <a id="orderBtn" class="btn btn-default btn-lg myBtn"  ng-click="open('sm', true)">Order Now</a>
+                        <a id="subscribeBtn" class="btn btn-default btn-lg myBtn" ng-click="open('sm', false)">Subscribe</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p>
         </p>
     </header>
 

@@ -28,17 +28,19 @@ function selectedDishCtrl($scope, $http, $routeParams) {
 app.controller('mainController', ['$scope', '$uibModal', '$log', function ($scope, $uibModal, $log) {
     $scope.items = ['item1', 'item2'];
 
-    $scope.open = function (size) {
+    $scope.open = function (size, isOrder) {
 
+        var template = isOrder ? 'content/ordernow.html' : 'content/subscribe.html'
         var modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'content/ordernow.html',
+            templateUrl: template,
             controller: 'ModalInstanceCtrl',
             size: size,
             resolve: {
                 items: function () {
                     return $scope.items;
-                }
+                },
+                isOrder: isOrder
             }
         });
 
@@ -114,7 +116,7 @@ app.controller('dishesController', ['$scope', '$log', '$http', function ($scope,
 
 }]);
 
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, $http) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, isOrder, $http) {
 
     $scope.items = items;
 
@@ -142,7 +144,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, 
             comments: $scope.comments
         };
 
-        var res = $http.post('dishes', dataObj);
+        var res = $http.post(isOrder?'api/order': 'api/subscribe', dataObj);
         $scope.submitted = true;
         res.success(function (data, status, headers, config) {
             $scope.success = true;

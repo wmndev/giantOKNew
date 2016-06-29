@@ -11,14 +11,20 @@ app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html');
 });
 
+app.post('/api/order', function(req, res){
+    res.status(200).send();
+});
+
+app.post('/api/subscribe', function(req, res){
+    res.status(200).send();
+});
+
 app.get('/api/dishes/:id', function(req, res) {
     console.log(req.params.id);
      res.json({msg: 'ok'});
 });
 
-app.post('/dishes', function(req, res){
-    res.status(200).send();
-});
+
 
 app.get('*', function(req, res) {
     res.sendFile(__dirname + '/index.html');

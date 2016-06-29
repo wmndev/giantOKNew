@@ -1,0 +1,16 @@
+<br/>
+<div ng-show="submitted" class=modal-header>
+    <div ng-show="success" class="alert alert-success" role="alert">We'll keep you posted</div>
+</div>
+<div class="modal-body">
+    <form role="form" ng-submit="submitOrder()">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input  type="email" class="form-control" id="exampleInputEmail1" ng-model="email">
+        <small class="text-muted">We'll never share your email with anyone else.</small>
+      </div>
+
+      <button type="submit" class="btn btn-success btn-lg modalBtn" >Join</button>
+    </form>
+</div>
+<br/>
