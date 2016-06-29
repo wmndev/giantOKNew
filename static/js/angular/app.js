@@ -11,7 +11,18 @@ app.config(function ($routeProvider) {
             templateUrl: 'dishes.html',
             controller: 'dishesController'
         })
+        .when('/dishes/:id', {
+            templateUrl: 'selectedDish.html',
+            controller: selectedDishCtrl
+        });
 });
+
+function selectedDishCtrl($scope, $http, $routeParams) {
+    $http.get('/api/dishes/' + $routeParams.id).
+    success(function (data) {
+        alert(data);
+    });
+}
 
 
 app.controller('mainController', ['$scope', '$uibModal', '$log', function ($scope, $uibModal, $log) {
@@ -37,13 +48,13 @@ app.controller('mainController', ['$scope', '$uibModal', '$log', function ($scop
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
-    
+
     var weeklyDish = {
-            name: 'Chraime',
-            shortDescription: 'Traditional Moroccan fish dish, It contains peppers, cilantro, and tomatoes and lots of Moroccan spices',
-            description: 'This dish is a tribute to Shula, mother of my sister in law and a great cook. I wish I could make all of the Moroccan dishes she make but that would require a lifetime of practice and going back in time to far places. Lucky for me Charime is easy to make as long as you have the right spices. It is spicy, it is tangy it Charimelicious!'
-        };
-    
+        name: 'Chraime',
+        shortDescription: 'Traditional Moroccan fish dish, It contains peppers, cilantro, and tomatoes and lots of Moroccan spices',
+        description: 'This dish is a tribute to Shula, mother of my sister in law and a great cook. I wish I could make all of the Moroccan dishes she make but that would require a lifetime of practice and going back in time to far places. Lucky for me Charime is easy to make as long as you have the right spices. It is spicy, it is tangy it Charimelicious!'
+    };
+
     $scope.dish = weeklyDish;
 }]);
 
@@ -103,7 +114,7 @@ app.controller('dishesController', ['$scope', '$log', '$http', function ($scope,
 
 }]);
 
-app.controller('ModalInstanceCtrl',function ($scope, $uibModalInstance, items, $http) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, $http) {
 
     $scope.items = items;
 

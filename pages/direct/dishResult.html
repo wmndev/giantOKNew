@@ -1,15 +1,10 @@
-<div class="col-md-6 col-xs-12">
-    <a class="thumbnail" href="dishes/{{dishObject.idx}}">
-        <div id="mycarousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="item active">
-                    <img src="img/dish{{dishObject.idx}}.jpg" alt="" class="img-responsive">
-                    <div class="carousel-caption">
-                        <h3>{{ dishObject.name }}</h3>
-                        <h5>{{ dishObject.shortDescription}}</h5>
-                    </div>
-                </div>
-            </div>
+<div class="col-md-12 col-xs-12">
+    <a href="#/dishes/{{dishObject.idx}}">
+        <div class="panel panel-default">
+            <div class="panel-body"><img src="img/dish{{dishObject.idx}}.jpg" alt="" class="img-responsive"></div>
+            <div class="panel-footer">
+                <h3>{{ dishObject.name }}</h3>
+                <h5>{{ dishObject.shortDescription}}</h5></div>
         </div>
     </a>
 </div>
