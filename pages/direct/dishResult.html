@@ -1,17 +1,49 @@
 <div class="col-md-12 col-xs-12">
-    <a  id="details" href="#/dishes/{{dishObject.idx}}">
+    <a id="details" href="#/dishes/{{dishObject.idx}}">
         <div class="panel panel-default">
-            <div class="panel-body"><img src="img/dish{{dishObject.idx}}.jpg" alt="" class="img-responsive"></div>
-            <div  class="panel-footer panel-clear">
+            <div class="panel-body"><img src="img/dish{{dishObject.idx}}.jpg" alt="" class="img-responsive dishImg"></div>
+            <div class="panel-footer panel-clear">
 
                 <div class="text-center">
-                    <h2>{{ dishObject.name }}</h2>
+                    <h1 class="title">{{ dishObject.name }}</h1>
                 </div>
                 <div class="text-center">
-                    <h5>{{ dishObject.shortDescription }}</h5>
+                    <p class="sub-title">{{ dishObject.shortDescription }}</p>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-lg-offset-2 col-lg-8 text-center">
+                        <div class="clearfix">
+                            <div class=" inline">
+                                    <a id="reviewBtn" class="btn btn-default btn-lg " ng-click="open('sm', true)">Reviews</a>                           <a id="recepieBtn" class="btn btn-default btn-lg " ng-click="open('sm', false)">Recepie</a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
         </div>
     </a>
 </div>
+
+<style>
+
+    .dishImg{
+    }
+
+    .title {
+        text-transform: uppercase;
+        color: black;
+        font-weight: 400;
+    }
+
+    .sub-title {
+        color: grey;
+        font-weight: lighter;
+    }
+
+    .dishBtn {
+
+    }
+</style>

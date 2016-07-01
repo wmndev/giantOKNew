@@ -1,9 +1,12 @@
 @import url('http://fonts.googleapis.com/css?family=Oswald');
+
 body {
     margin: 0;
     padding: 0;
     background-attachment: fixed;
     background-size: cover;
+    font-family: Oswald, sans-serif;
+    background-color: #f7f7f7;
 }
 
 #video-background {
@@ -39,11 +42,11 @@ h1 {
 }
 
 #details:hover {
-/*    color: none;*/
     text-decoration: none;
+    background-color: #ffffff;
 }
 
-.panel-clear{
+.panel-clear {
     background-color: transparent !important;
     border: none !important;
 }

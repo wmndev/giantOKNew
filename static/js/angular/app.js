@@ -116,7 +116,7 @@ app.controller('dishesController', ['$scope', '$log', '$http', function ($scope,
 
 }]);
 
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, isOrder, $http) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, isOrder, $http, $timeout) {
 
     $scope.items = items;
 
@@ -148,7 +148,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, 
         $scope.submitted = true;
         res.success(function (data, status, headers, config) {
             $scope.success = true;
-            //cancel();
+            $timeout(cancel(), 10000);
         });
         res.error(function (data, status, headers, config) {
             alert('error');

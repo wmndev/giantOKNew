@@ -1,7 +1,13 @@
 var express = require('express');
 var _ = require('underscore');
+var bodyParser = require('body-parser');
+
+api = require('./routes/api.js');
 
 var app = express();
+
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.use(express.static('static'));
 app.use(express.static('pages'));
@@ -11,9 +17,7 @@ app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html');
 });
 
-app.post('/api/order', function(req, res){
-    res.status(200).send();
-});
+app.post('/api/order',api.order);
 
 app.post('/api/subscribe', function(req, res){
     res.status(200).send();
