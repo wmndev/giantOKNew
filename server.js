@@ -25,9 +25,7 @@ app.get('/', function (req, res) {
 
 app.post('/api/order', api.order);
 
-app.post('/api/subscribe', function (req, res) {
-    res.status(200).send();
-});
+app.post('/api/subscribe',api.subscribe);
 
 app.get('/api/dishes/:id', function (req, res) {
     console.log(req.params.id);

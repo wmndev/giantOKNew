@@ -7,7 +7,6 @@ if (env === 'production'){
         dialect:'postgress'
     })
 }else{
-    console.log('__dirname:' + __dirname);
     sequelize = new Sequelize(undefined, undefined, undefined, {
         dialect: 'sqlite',
         storage: __dirname + '/data/dev-giant.sqlite'
@@ -15,8 +14,8 @@ if (env === 'production'){
 }
 
 var db = {};
-console.log(__dirname + '/models/order.js');
 db.order = sequelize.import(__dirname + '/models/order.js');
+db.subscribe = sequelize.import(__dirname + '/models/subscribe.js');
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

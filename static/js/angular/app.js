@@ -24,12 +24,36 @@ function selectedDishCtrl($scope, $http, $routeParams) {
     });
 }
 
+app.controller('navCtrl', ['$scope', '$uibModal', function ($scope, $uibModal) {
+
+    $scope.items = ['item1', 'item2'];
+    $scope.open = function (size, isOrder) {
+        var template = isOrder ? 'content/ordernow.html' : 'content/subscribe.html'
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: template,
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                },
+                isOrder: isOrder
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+}]);
 
 app.controller('mainController', ['$scope', '$uibModal', '$log', function ($scope, $uibModal, $log) {
     $scope.items = ['item1', 'item2'];
 
     $scope.open = function (size, isOrder) {
-
         var template = isOrder ? 'content/ordernow.html' : 'content/subscribe.html'
         var modalInstance = $uibModal.open({
             animation: true,
@@ -144,7 +168,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, 
             comments: $scope.comments
         };
 
-        var res = $http.post(isOrder?'api/order': 'api/subscribe', dataObj);
+        var res = $http.post(isOrder ? 'api/order' : 'api/subscribe', dataObj);
         $scope.submitted = true;
         res.success(function (data, status, headers, config) {
             $scope.success = true;
