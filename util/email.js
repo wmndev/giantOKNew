@@ -21,14 +21,18 @@ var message = {
     //    to: '"Yuval" <yuvalby@gmail.com>',
 
     // Subject of the message
-    subject: '✔ Your Order Is Being Prepared',
+    subject: 'GiantOK - Order Confirmation ✔ ',
 
     // plaintext body
     text: 'We got you covered!',
 
     // HTML body
-    html: '<p><b>Hello</b></p>' +
-        '<p>Relax, Enjoy and wait for Shmulik to $%%$% your ass<br/></p>'
+    html: '<p><b>Dear customer,</b></p>' +
+        '<p>Thank you for your recent order at <a href="">GiantOK</a>.<br/></p>' +
+        '<p>Our cooking squad is getting ready to deliever another hearty meal. Your giantok will wait for you in the pantry '+
+        'by -DATE- at noon</p>' +
+        '<p>We appriciate your business, <br/> Yuval and the team</p><br/>' +
+        '<a href="">GiantOK</a>, Make Lunch Great Again!'
 };
 
 var sendOrderMail = function (toEmail) {
