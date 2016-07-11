@@ -16,23 +16,16 @@ var message = {
 
     // sender info
     from: 'The Giant Chef <gokchef@gmail.com>',
-
-    // Comma separated list of recipients
-    //    to: '"Yuval" <yuvalby@gmail.com>',
-
-    // Subject of the message
     subject: 'GiantOK - Order Confirmation ✔ ',
-
     // plaintext body
     text: 'We got you covered!',
-
     // HTML body
     html: '<p><b>Dear customer,</b></p>' +
-        '<p>Thank you for your recent order at <a href="">GiantOK</a>.<br/></p>' +
+        '<p>Thank you for your recent order at <a href="https://giantok.herokuapp.com">GiantOK</a>.<br/></p>' +
         '<p>Our cooking squad is getting ready to deliever another hearty meal. Your giantok will wait for you in the pantry '+
         'by -DATE- at noon</p>' +
         '<p>We appriciate your business, <br/> Yuval and the team</p><br/>' +
-        '<a href="">GiantOK</a>, Make Lunch Great Again!'
+        '<a href="https://giantok.herokuapp.com">GiantOK</a>, Make Lunch Great Again!'
 };
 
 var sendOrderMail = function (toEmail) {

@@ -1,16 +1,18 @@
 <br/>
 <div ng-show="submitted" class=modal-header>
-    <div ng-show="success" class="alert alert-success" role="alert">Relax, Smile, the chef got your order!!</div>
+    <div ng-show="success" class="alert alert-success" role="alert">
+        <div> The chef got your order!</div><div>
+        </div> You should recieve a confirmation email to: {{email}}</div>
 </div>
-<div class="modal-body">
+<div ng-hide="success" class="modal-body">
     <form role="form" ng-submit="submitOrder()">
       <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
         <input  type="email" class="form-control" id="exampleInputEmail1" ng-model="email">
-        <small class="text-muted">We'll never share your email with anyone else.</small>
+        <small class="text-muted">We'll never share your email with anyone else</small>
       </div>
       <div class="checkbox">
-    <small class="text-muted"><input style="width:4%" type="checkbox" ng-model="dl">Add my email to the VIP list</small>
+    <small class="text-muted"><input style="width:4%" type="checkbox" ng-model="dl">Add my email to the mailing list</small>
   </div>
 
 
@@ -22,4 +24,8 @@
       <button type="submit" class="btn btn-success btn-lg modalBtn" >Order</button>
     </form>
 </div>
+<div ng-show="success" class="modal-body">
+    <button type="submit" ng-click="cancel();"class="btn btn-danger btn-lg modalBtnClose" >Close</button>
+</div>
+
 <br/>

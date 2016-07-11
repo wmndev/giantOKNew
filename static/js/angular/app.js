@@ -45,7 +45,7 @@ app.controller('navCtrl', ['$scope', '$uibModal', function ($scope, $uibModal) {
         modalInstance.result.then(function (selectedItem) {
             $scope.selected = selectedItem;
         }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
+           console.info('Modal dismissed at: ' + new Date());
         });
     }
 }]);
@@ -172,7 +172,6 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, 
         $scope.submitted = true;
         res.success(function (data, status, headers, config) {
             $scope.success = true;
-            $timeout(cancel(), 10000);
         });
         res.error(function (data, status, headers, config) {
             alert('error');
