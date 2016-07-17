@@ -23,24 +23,12 @@ app.config(function ($routeProvider) {
 });
 
 app.controller('adminDishCtrl', ['$scope', '$http', function ($scope, $http) {
-    $scope.submitDish = function (dishObj) {
-        alert(dishObj.one.name);
-        //        var dataObj = {
-        //
-        //            email: $scope.email,
-        //            dl: $scope.dl,
-        //            comments: $scope.comments
-        //        };
-        //
-        //        var res = $http.post('api/dishes', dataObj);
-        //        //$scope.submitted = true;
-        //        res.success(function (data, status, headers, config) {
-        //            alert('ok');
-        //        });
-        //        res.error(function (data, status, headers, config) {
-        //            alert('error');
-        //        });
-
+    $scope.submitDish = function () {
+        $http.post('api/dishes', $scope.details).then(function (data) {
+            alert('ok');
+        }, function (err) {
+            console.log(err);
+        });
     };
 
     var init = function () {
@@ -88,7 +76,7 @@ app.controller('navCtrl', ['$scope', '$uibModal', function ($scope, $uibModal) {
     }
 }]);
 
-app.controller('mainController', ['$scope', '$uibModal', '$log', function ($scope, $uibModal, $log) {
+app.controller('mainController', ['$scope', '$uibModal', '$log', '$http', function ($scope, $uibModal, $log, $http) {
     $scope.items = ['item1', 'item2'];
 
     $scope.open = function (size, isOrder) {
@@ -113,13 +101,14 @@ app.controller('mainController', ['$scope', '$uibModal', '$log', function ($scop
         });
     }
 
-    var weeklyDish = {
-        name: 'Chraime',
-        shortDescription: 'Traditional Moroccan fish dish, It contains peppers, cilantro, and tomatoes and lots of Moroccan spices',
-        description: 'This dish is a tribute to Shula, mother of my sister in law and a great cook. I wish I could make all of the Moroccan dishes she make but that would require a lifetime of practice and going back in time to far places. Lucky for me Charime is easy to make as long as you have the right spices. It is spicy, it is tangy it Charimelicious!'
-    };
+    function init() {
+        $http.get('api/dishes?isWeekly=true').then(function (dish) {
+            console.log(dish);
+            $scope.dish = dish.data;
+        });
+    }
 
-    $scope.dish = weeklyDish;
+    init();
 }]);
 
 
@@ -189,8 +178,6 @@ app.directive('dish', function () {
         templateUrl: 'direct/dish.html',
         scope: {
             details: "="
-                //            ,
-                //            submitFunction: "&"
         }
     }
 });

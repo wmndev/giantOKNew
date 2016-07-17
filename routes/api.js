@@ -23,52 +23,77 @@ exports.subscribe = function (req, res) {
     db.subscribe.create(body).then(function (subscribe) {
         console.info('Subscribed persisted: ' + subscribe.toJSON());
         res.status(200).send();
-    }, function () {
+    }, function (err) {
+        console.log(err);
         return res.status(400).send();
     });
 }
 
-exports.getAllDishes = function (req, res) {
-    db.dish.findAll().then(function (data) {
-        var retObject = {};
-        if (_.isEmpty(data)) {
-            console.log('start from begining');
-            var object = {
-                name: 'N/A',
-                shortDesc: 'N/A',
-                description: 'N/A',
-            };
-            var i = 1
-            for (; i <= 4; i++) {
-                console.log('i is:' + i);
-                db.dish.create(object).then(function (dish) {
-                    console.log('new dish name:' + dish.name + '  ' + dish.id);
-                    buildDishObject(i, retObject, dish);
-                    if (i == 4) {
-                        console.log(retObject);
-                        res.json(retObject);
-                    }
-                }, function (err) {
-                    console.log(err);
+
+exports.createDishes = function (req, res) {
+    var data = req.body;
+    for (var item in data) {
+        console.log(item);
+        var object = _.pick(data[item], 'name', 'shortDesc', 'description', 'isWeekly');
+        var objectId = _.pick(data[item], 'id');
+        db.dish.update(object, {
+            where: objectId
+        }).then(function (dish) {
+            console.log('Done updating: ' + dish);
+        });
+    }
+    res.status(200).send();
+
+};
+
+exports.getDishes = function (req, res) {
+    var isWeekly = req.query.isWeekly;
+    if (isWeekly) {
+        db.dish.findOne({where: {
+            isWeekly: true
+        }}).then(function(weeklyDish){
+            res.json(weeklyDish);
+        });
+    } else {
+
+        db.dish.findAll().then(function (data) {
+            var retObject = {};
+            if (_.isEmpty(data)) {
+                console.log('start from begining');
+                var object = {
+                    name: 'N/A',
+                    shortDesc: 'N/A',
+                    description: 'N/A',
+                };
+                var i = 1
+                for (; i <= 4; i++) {
+                    db.dish.create(object).then(function (dish) {
+                        buildDishObject(i, retObject, dish);
+                        if (i == 4) {
+                            console.log(retObject);
+                            res.json(retObject);
+                        }
+                    }, function (err) {
+                        console.log(err);
+                    });
+                }
+            } else {
+                var i = 1;
+                data.forEach(function (result) {
+                    buildDishObject(i, retObject, result.dataValues);
+                    i++;
                 });
+                res.json(retObject);
             }
-            console.log('end: ' + retObject.two);
-        } else {
-            var i = 1;
-            data.forEach(function (result) {
-                buildDishObject(i, retObject, result.dataValues);
-                i++;
-            });
-            res.json(retObject);
-        }
 
 
 
-    }, function (err) {
-        res.status(500).send();
-    });
+        }, function (err) {
+            res.status(500).send();
+        });
+    }
 
-}
+};
 
 function buildDishObject(i, retObject, result) {
 

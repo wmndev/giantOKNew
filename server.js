@@ -27,6 +27,9 @@ app.post('/api/order', api.order);
 
 app.post('/api/subscribe',api.subscribe);
 
+app.post('/api/dishes', api.createDishes);
+
+
 app.get('/api/dishes/:id', function (req, res) {
     console.log(req.params.id);
     res.json({
@@ -34,7 +37,7 @@ app.get('/api/dishes/:id', function (req, res) {
     });
 });
 
-app.get('/api/dishes', api.getAllDishes);
+app.get('/api/dishes', api.getDishes);
 
 
 
