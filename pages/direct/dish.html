@@ -1,0 +1,17 @@
+<div class="row">
+    <h1>Dish {{details.id}}</h1>
+
+    <input id="_id" type="hidden" value="{{details.id}}" />
+    <div class="form-group">
+        <label for="dishNameLbl">Name</label>
+        <input type="dishName" class="form-control" id="dishName" ng-model="details.name">
+    </div>
+    <div class="form-group">
+        <label for="shortDescLbl">Short Description</label>
+        <textarea class="form-control" id="shortDesc" rows="2" ng-model="details.shortDesc"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="longDescLbl">Long Description</label>
+        <textarea class="form-control" id="longDesc" rows="5" ng-model="details.description"></textarea>
+    </div>
+</div>

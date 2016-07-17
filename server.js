@@ -34,6 +34,8 @@ app.get('/api/dishes/:id', function (req, res) {
     });
 });
 
+app.get('/api/dishes', api.getAllDishes);
+
 
 
 app.get('*', function (req, res) {

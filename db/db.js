@@ -16,6 +16,7 @@ if (env === 'production'){
 var db = {};
 db.order = sequelize.import(__dirname + '/models/order.js');
 db.subscribe = sequelize.import(__dirname + '/models/subscribe.js');
+db.dish = sequelize.import(__dirname + '/models/dish.js');
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
