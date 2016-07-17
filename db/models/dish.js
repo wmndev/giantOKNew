@@ -17,6 +17,9 @@ module.exports = function (sequelize, DataTypes) {
         description: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                len: [3, 700]
+            }
         },
         isWeekly: {
             type: DataTypes.BOOLEAN,
