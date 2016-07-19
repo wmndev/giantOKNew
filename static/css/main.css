@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald');
-
 body {
     margin: 0;
     padding: 0;
@@ -18,11 +17,11 @@ body {
     width: auto;
     height: auto;
     z-index: -100;
-    -webkit-filter: blur(3px);
-    -moz-filter: blur(3px);
-    -o-filter: blur(3px);
-    -ms-filter: blur(3px);
-    filter: blur(3px);
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
 }
 
 h1 {
@@ -39,6 +38,9 @@ h1 {
     color: #fff;
     background-color: transparent;
     border: 2px solid;
+    padding: 8px 30px;
+    border-radius: 0;
+    font-size: 15px;
 }
 
 .modalBtn {
@@ -59,4 +61,16 @@ h1 {
 .panel-clear {
     background-color: transparent !important;
     border: none !important;
+}
+
+.title {
+    text-transform: uppercase;
+    color: black;
+    font-weight: 400;
+}
+
+.sub-title {
+    text-transform: uppercase;
+    color: grey;
+    font-weight: lighter;
 }

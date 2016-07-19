@@ -41,13 +41,36 @@ app.controller('adminDishCtrl', ['$scope', '$http', function ($scope, $http) {
     init();
 }]);
 
-function selectedDishCtrl($scope, $http, $routeParams) {
+function selectedDishCtrl($scope, $http, $routeParams, $uibModal) {
     $http.get('/api/dishes/' + $routeParams.id).then(function (dish) {
         console.log(dish);
         $scope.dish = dish.data;
     }, function (err) {
         console.log(err);
     });
+
+    $scope.items = ['item1', 'item2'];
+    $scope.open = function (size) {
+        var template ='content/ordernow.html'
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: template,
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                },
+                isOrder: true
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function (err) {
+            console.log(err);
+        });
+    }
 }
 
 app.controller('navCtrl', ['$scope', '$uibModal', function ($scope, $uibModal) {

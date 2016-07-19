@@ -67,7 +67,6 @@ exports.getDishes = function (req, res) {
             res.json(weeklyDish);
         });
     } else {
-
         db.dish.findAll({order: [['id', 'ASC']]}).then(function (data) {
             var retObject = {};
             if (_.isEmpty(data)) {

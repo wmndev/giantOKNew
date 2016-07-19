@@ -1,25 +1,23 @@
-<div class="container">
+<video muted autoplay="" loop="" class="fillWidth fadeIn animated" id="video-background">
+    <source src="video/Food-1094.mp4" type="video/mp4">Your browser does not support the video tag. I suggest you upgrade your browser.
+</video>
 
-    <video muted autoplay="" loop="" class="fillWidth fadeIn animated" id="video-background">
-        <source src="video/Food-1094.mp4" type="video/mp4">Your browser does not support the video tag. I suggest you upgrade your browser.
-    </video>
-
-    <!-- Jumbotron Header -->
-    <header id="mainJumbotron" class="jumbotron hero-spacer">
-        <h1>The Weekly Dish</h1>
-        <h2>{{dish.name}}</h2>
-        <p>{{dish.description}}</p>
-        <div class="row">
-            <div class="col-lg-offset-4 col-lg-4 text-center">
-                <div class="clearfix">
-                    <div class=" inline" >
-                        <a id="orderBtn" class="btn btn-default btn-lg myBtn"  ng-click="open('sm', true)">Order Now</a>
-                    </div>
+<!-- Jumbotron Header -->
+<header id="mainJumbotron" class="jumbotron hero-spacer">
+    <h1>MAKE LUNCH GREAT. AGAIN!</h1>
+    <br/>
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="col-lg-offset-3 col-lg-6 text-center">
+            <div class="clearfix">
+                <div class=" inline">
+                    <a id="weeklyDishBtn" class="btn btn-default btn-lg myBtn" href="#/dishes/{{dish.id}}">EXPLORE THE WEEKLY DISH</a>
                 </div>
             </div>
-
         </div>
-        <p>
-        </p>
-    </header>
-</div>
+
+    </div>
+    <p>
+    </p>
+</header>
