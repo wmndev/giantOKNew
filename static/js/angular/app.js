@@ -25,7 +25,7 @@ app.config(function ($routeProvider) {
 app.controller('adminDishCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.submitDish = function () {
         $http.post('api/dishes', $scope.details).then(function (data) {
-            alert('ok');
+            console.log(data);
         }, function (err) {
             console.log(err);
         });
@@ -34,7 +34,6 @@ app.controller('adminDishCtrl', ['$scope', '$http', function ($scope, $http) {
     var init = function () {
         $http.get('/api/dishes').
         success(function (data) {
-            console.log(data);
             $scope.details = data;
         });
     }
@@ -43,10 +42,11 @@ app.controller('adminDishCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 function selectedDishCtrl($scope, $http, $routeParams) {
-    $http.get('/api/dishes/' + $routeParams.id).
-    success(function (data) {
-        $scope.name = "My first Dish";
-        $scope.shortDesc = "Yesterday I cooked my first dish";
+    $http.get('/api/dishes/' + $routeParams.id).then(function (dish) {
+        console.log(dish);
+        $scope.dish = dish.data;
+    }, function (err) {
+        console.log(err);
     });
 }
 
@@ -103,7 +103,6 @@ app.controller('mainController', ['$scope', '$uibModal', '$log', '$http', functi
 
     function init() {
         $http.get('api/dishes?isWeekly=true').then(function (dish) {
-            console.log(dish);
             $scope.dish = dish.data;
         });
     }
@@ -157,7 +156,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, 
             $scope.success = true;
         });
         res.error(function (data, status, headers, config) {
-            alert('error');
+            console.log(error);
         });
 
     };

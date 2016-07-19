@@ -46,6 +46,18 @@ exports.createDishes = function (req, res) {
 
 };
 
+exports.findDishById = function(req, res){
+    var id = req.params.id;
+
+    db.dish.findById(id).then(function(dish){
+        res.json(dish);
+    }, function(err){
+        console.log(err);
+        res.status(500).send();
+    });
+
+};
+
 exports.getDishes = function (req, res) {
     var isWeekly = req.query.isWeekly;
     if (isWeekly) {
@@ -56,7 +68,7 @@ exports.getDishes = function (req, res) {
         });
     } else {
 
-        db.dish.findAll().then(function (data) {
+        db.dish.findAll({order: [['id', 'ASC']]}).then(function (data) {
             var retObject = {};
             if (_.isEmpty(data)) {
                 console.log('start from begining');
@@ -85,14 +97,10 @@ exports.getDishes = function (req, res) {
                 });
                 res.json(retObject);
             }
-
-
-
         }, function (err) {
             res.status(500).send();
         });
     }
-
 };
 
 function buildDishObject(i, retObject, result) {

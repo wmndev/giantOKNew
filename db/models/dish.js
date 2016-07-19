@@ -11,15 +11,12 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [3, 250]
+                len: [3, 255]
             }
         },
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
-            validate: {
-                len: [3, 700]
-            }
         },
         isWeekly: {
             type: DataTypes.BOOLEAN,

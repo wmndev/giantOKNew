@@ -29,13 +29,7 @@ app.post('/api/subscribe',api.subscribe);
 
 app.post('/api/dishes', api.createDishes);
 
-
-app.get('/api/dishes/:id', function (req, res) {
-    console.log(req.params.id);
-    res.json({
-        msg: 'ok'
-    });
-});
+app.get('/api/dishes/:id', api.findDishById);
 
 app.get('/api/dishes', api.getDishes);
 
