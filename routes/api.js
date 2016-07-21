@@ -7,12 +7,30 @@ var exports = module.exports = {};
 
 exports.order = function (req, res) {
     var body = _.pick(req.body, 'email', 'comments');
+    body.active = true;
     console.info('Order recieved: ' + body);
     db.order.create(body).then(function (order) {
         console.info('Order persisted: ' + order.toJSON());
         email.sendOrderEmail(order.email);
         res.status(200).send();
     }, function () {
+        return res.status(400).send();
+    });
+};
+
+exports.getOrders = function (req, res) {
+    var active = req.query.isWeekly;
+    var whereClasuse = {}
+    if (active) {
+        whereClasuse.where = {
+            active: true
+        };
+    }
+
+    db.order.findAll(whereClasuse).then(function (activeOrders) {
+        res.json(activeOrders);
+    }, function (err) {
+        console.log(err);
         return res.status(400).send();
     });
 };
@@ -46,12 +64,12 @@ exports.createDishes = function (req, res) {
 
 };
 
-exports.findDishById = function(req, res){
+exports.findDishById = function (req, res) {
     var id = req.params.id;
 
-    db.dish.findById(id).then(function(dish){
+    db.dish.findById(id).then(function (dish) {
         res.json(dish);
-    }, function(err){
+    }, function (err) {
         console.log(err);
         res.status(500).send();
     });
@@ -61,13 +79,17 @@ exports.findDishById = function(req, res){
 exports.getDishes = function (req, res) {
     var isWeekly = req.query.isWeekly;
     if (isWeekly) {
-        db.dish.findOne({where: {
-            isWeekly: true
-        }}).then(function(weeklyDish){
+        db.dish.findOne({
+            where: {
+                isWeekly: true
+            }
+        }).then(function (weeklyDish) {
             res.json(weeklyDish);
         });
     } else {
-        db.dish.findAll({order: [['id', 'ASC']]}).then(function (data) {
+        db.dish.findAll({
+            order: [['id', 'ASC']]
+        }).then(function (data) {
             var retObject = {};
             if (_.isEmpty(data)) {
                 console.log('start from begining');

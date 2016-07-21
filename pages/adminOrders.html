@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 style="font-size:50px" class="page-header">{{orders.length}} Orders</h1>
+    </div>
+</div>
+<div ng-repeat="order in orders">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pamel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{order.email}}</h3>
+                </div>
+                <div class="panel-body">
+                    <b>Comments: </b>
+                    <p class="text-muted">{{order.comments}}</p>
+                    <b>Created on: </b><div class="text-muted">{{order.createdAt | date: 'MMM d, y HH:mm'}}</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

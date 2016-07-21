@@ -18,9 +18,26 @@ app.config(function ($routeProvider) {
         .when('/admin/dishes', {
             templateUrl: 'adminDishes.html',
             controller: 'adminDishCtrl'
+        }).when('/admin/console', {
+            templateUrl: 'adminConsole.html',
+        }).when('/admin/orders', {
+            templateUrl: 'adminOrders.html',
+            controller: adminOrders
         });
-
 });
+
+
+function adminOrders($scope, $http) {
+    function init() {
+        $http.get('/api/orders?active=true').then(function (activeOrders) {
+            $scope.orders = activeOrders.data;
+        }, function (err) {
+            console.log(err);
+        });
+    }
+
+    init();
+}
 
 app.controller('adminDishCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.submitDish = function () {
@@ -51,7 +68,7 @@ function selectedDishCtrl($scope, $http, $routeParams, $uibModal) {
 
     $scope.items = ['item1', 'item2'];
     $scope.open = function (size) {
-        var template ='content/ordernow.html'
+        var template = 'content/ordernow.html'
         var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: template,

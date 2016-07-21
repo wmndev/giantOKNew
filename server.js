@@ -33,6 +33,8 @@ app.get('/api/dishes/:id', api.findDishById);
 
 app.get('/api/dishes', api.getDishes);
 
+app.get('/api/orders', api.getOrders);
+
 
 
 app.get('*', function (req, res) {
