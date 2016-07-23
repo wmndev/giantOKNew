@@ -1,4 +1,4 @@
-<!--<div class="container">-->
+<div class="container">
 
     <!-- Page Heading -->
     <div class="row">
@@ -6,17 +6,8 @@
             <h1 style="font-size:50px" class="page-header">Meet Our Dishes</h1>
         </div>
     </div>
+    <div ng-repeat="dish in dishes">
 
-    <!-- Dish one -->
-    <dish-result dish-object="dishes.one"></dish-result>
+        <dish-result dish-object="dish"></dish-result>
 
-    <!-- Dish Two -->
-    <dish-result dish-object="dishes.two"></dish-result>
-
-    <!-- Dish Three -->
-    <dish-result dish-object="dishes.three"></dish-result>
-
-    <!-- Dish Four -->
-    <dish-result dish-object="dishes.four"></dish-result>
-
-<!--</div>-->
+    </div>

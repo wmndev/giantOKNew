@@ -1,5 +1,7 @@
 <div class="container">
-
+    <div>
+        <a href="#/admin/console">Back to Console</a>
+    </div>
     <!-- Page Heading -->
     <div class="row">
         <div class="col-lg-12">
@@ -7,16 +9,16 @@
         </div>
     </div>
     <form role="form" ng-submit="submitDish()">
-        <dish details="details.one"> </dish>
-        <br/>
 
-        <dish details="details.two"> </dish>
+        <div ng-repeat="dish in dishes">
 
-        <dish details="details.three"> </dish>
-
-        <dish details="details.four"> </dish>
+            <dish details="dish"> </dish>
+            <br/>
+        </div>
 
         <button type="submit" class="btn btn-success btn-lg">Complete</button>
 
 
     </form>
+
+</div>

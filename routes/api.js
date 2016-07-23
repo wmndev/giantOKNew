@@ -90,7 +90,7 @@ exports.getDishes = function (req, res) {
         db.dish.findAll({
             order: [['id', 'ASC']]
         }).then(function (data) {
-            var retObject = {};
+
             if (_.isEmpty(data)) {
                 console.log('start from begining');
                 var object = {
@@ -100,23 +100,16 @@ exports.getDishes = function (req, res) {
                 };
                 var i = 1
                 for (; i <= 4; i++) {
+                    var retObject = [];
                     db.dish.create(object).then(function (dish) {
-                        buildDishObject(i, retObject, dish);
-                        if (i == 4) {
-                            console.log(retObject);
-                            res.json(retObject);
-                        }
+                        retObject.push(dish);
                     }, function (err) {
                         console.log(err);
                     });
                 }
-            } else {
-                var i = 1;
-                data.forEach(function (result) {
-                    buildDishObject(i, retObject, result.dataValues);
-                    i++;
-                });
                 res.json(retObject);
+            } else {
+                res.json(data);
             }
         }, function (err) {
             res.status(500).send();
@@ -124,20 +117,20 @@ exports.getDishes = function (req, res) {
     }
 };
 
-function buildDishObject(i, retObject, result) {
-
-    switch (i) {
-    case 1:
-        retObject.one = result;
-        break;
-    case 2:
-        retObject.two = result;
-        break;
-    case 3:
-        retObject.three = result;
-        break;
-    case 4:
-        retObject.four = result;
-        break;
-    }
-}
+//function buildDishObject(i, retObject, result) {
+//
+//    switch (i) {
+//    case 1:
+//        retObject.one = result;
+//        break;
+//    case 2:
+//        retObject.two = result;
+//        break;
+//    case 3:
+//        retObject.three = result;
+//        break;
+//    case 4:
+//        retObject.four = result;
+//        break;
+//    }
+//}
