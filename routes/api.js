@@ -21,9 +21,10 @@ exports.order = function (req, res) {
 exports.getOrders = function (req, res) {
     var active = req.query.isWeekly;
     var whereClasuse = {}
-    if (active) {
+
+    if (typeof active !== 'undefined' && typeof active !== null && active === 'boolean') {
         whereClasuse.where = {
-            active: true
+            active: active
         };
     }
 

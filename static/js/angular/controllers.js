@@ -1,41 +1,33 @@
+function adminOrders($scope, orderService) {
 
-function adminOrders($scope, $http) {
-    function init() {
-        $http.get('/api/orders?active=true').then(function (activeOrders) {
+    $scope.active = true;
+
+    function getOrders() {
+        orderService.GetOrders($scope.active).then(function (activeOrders) {
             $scope.orders = activeOrders.data;
         }, function (err) {
             console.log(err);
         });
     }
 
-    init();
+    getOrders();
 }
 
-app.controller('adminDishCtrl', ['$scope', '$http', function ($scope, $http) {
+app.controller('adminDishCtrl', ['$scope', 'dishService', function ($scope, dishService) {
+
+    dishService.GetAllDishes().then(function (dishes) {
+        console.log(dishes)
+        $scope.dishes = dishes.data;
+    });
+
     $scope.submitDish = function () {
-        $http.post('api/dishes', $scope.dishes).then(function (data) {
-            console.log(data);
-        }, function (err) {
-            console.log(err);
-        });
-    };
-
-    var init = function () {
-        $http.get('/api/dishes').
-        success(function (data) {
-            $scope.dishes = data;
-        });
+        dishService.SubmitDishes($scope.dishes);
     }
-
-    init();
 }]);
 
-function selectedDishCtrl($scope, $http, $routeParams, $uibModal) {
-    $http.get('/api/dishes/' + $routeParams.id).then(function (dish) {
-        console.log(dish);
-        $scope.dish = dish.data;
-    }, function (err) {
-        console.log(err);
+function selectedDishCtrl($scope, $routeParams, $uibModal, dishService) {
+    dishService.GetSelectedDish($routeParams.id).then(function (dish) {
+        $scope.dish = dish;
     });
 
     $scope.items = ['item1', 'item2'];
@@ -66,7 +58,7 @@ app.controller('navCtrl', ['$scope', '$uibModal', function ($scope, $uibModal) {
 
     $scope.items = ['item1', 'item2'];
     $scope.open = function (size, isOrder) {
-        var template = isOrder ? 'content/ordernow.html' : 'content/subscribe.html'
+        var template = 'content/subscribe.html'
         var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: template,
@@ -88,53 +80,21 @@ app.controller('navCtrl', ['$scope', '$uibModal', function ($scope, $uibModal) {
     }
 }]);
 
-app.controller('mainController', ['$scope', '$uibModal', '$log', '$http', function ($scope, $uibModal, $log, $http) {
-    $scope.items = ['item1', 'item2'];
-
-    $scope.open = function (size, isOrder) {
-        var template = isOrder ? 'content/ordernow.html' : 'content/subscribe.html'
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: template,
-            controller: 'ModalInstanceCtrl',
-            size: size,
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                },
-                isOrder: isOrder
-            }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    }
-
-    function init() {
-        $http.get('api/dishes?isWeekly=true').then(function (dish) {
-            $scope.dish = dish.data;
-        });
-    }
-
-    init();
+app.controller('mainController', ['$scope', '$uibModal', 'dishService', function ($scope, $uibModal, dishService) {
+    dishService.GetAllDishes(true).then(function (dish) {
+        $scope.dish = dish.data;
+    });
 }]);
 
 
-app.controller('dishesController', ['$scope', '$log', '$http', function ($scope, $log, $http) {
-    function init() {
-        $http.get('/api/dishes').then(function (dishes) {
-            $scope.dishes = dishes.data;
-        });
-    }
+app.controller('dishesController', ['$scope', 'dishService', function ($scope, dishService) {
 
-    init();
-
+    dishService.GetAllDishes().then(function (dishes) {
+        $scope.dishes = dishes.data;
+    });
 }]);
 
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, isOrder, $http, $timeout) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, isOrder, orderService, subscriberService) {
 
     $scope.items = items;
 
@@ -162,14 +122,19 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, 
             comments: $scope.comments
         };
 
-        var res = $http.post(isOrder ? 'api/order' : 'api/subscribe', dataObj);
-        $scope.submitted = true;
-        res.success(function (data, status, headers, config) {
-            $scope.success = true;
-        });
-        res.error(function (data, status, headers, config) {
-            console.log(error);
-        });
 
+        $scope.submitted = true;
+        if (isOrder) {
+            orderService.SubmitOrder(dataObj).then(function (data) {
+                $scope.success = true;
+            }, function (err) {
+                $scope.success = false;
+            });
+        } else {
+            subscriberService.Subscribe(dataObj).then(function (data) {
+                $scope.success = true;
+                console.log('subscription completed sucessfuly');
+            });
+        }
     };
 });
