@@ -53,7 +53,7 @@ exports.createDishes = function (req, res) {
     var data = req.body;
     for (var item in data) {
         console.log(item);
-        var object = _.pick(data[item], 'name', 'shortDesc', 'description', 'isWeekly');
+        var object = _.pick(data[item], 'name', 'shortDesc', 'description','ingredients', 'isWeekly');
         var objectId = _.pick(data[item], 'id');
         db.dish.update(object, {
             where: objectId
@@ -91,7 +91,7 @@ exports.getDishes = function (req, res) {
         db.dish.findAll({
             order: [['id', 'ASC']]
         }).then(function (data) {
-
+            console.log('isEmpty: ' + _.isEmpty(data));
             if (_.isEmpty(data)) {
                 console.log('start from begining');
                 var object = {

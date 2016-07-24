@@ -18,6 +18,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: false,
         },
+        ingredients: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+        },
         isWeekly: {
             type: DataTypes.BOOLEAN,
             defaultValue: false

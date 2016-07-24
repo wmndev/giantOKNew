@@ -30,6 +30,7 @@ app.service('dishService', ['$http', function ($http) {
 
 
     this.SubmitDishes = function (dishes) {
+        console.log(dishes);
         $http.post('api/dishes', dishes).then(function (data) {
             console.log(data);
         }, function (err) {
