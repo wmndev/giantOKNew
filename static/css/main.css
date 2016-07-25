@@ -47,6 +47,13 @@ h2, h3{
     font-size: 15px;
 }
 
+.defBtn{
+    border: 2px solid;
+    padding: 4px 20px;
+    border-radius: 0;
+    font-size: 13px;
+}
+
 .modalBtn {
     color: #4cae4c;
     background-color: transparent;

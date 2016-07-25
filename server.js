@@ -27,6 +27,8 @@ app.post('/api/order', api.order);
 
 app.post('/api/subscribe',api.subscribe);
 
+app.post('/api/review', api.createReview );
+
 app.post('/api/dishes', api.createDishes);
 
 app.get('/api/dishes/:id', api.findDishById);
@@ -35,6 +37,7 @@ app.get('/api/dishes', api.getDishes);
 
 app.get('/api/orders', api.getOrders);
 
+app.get('/api/review/:id', api.getReviews);
 
 
 app.get('*', function (req, res) {
@@ -49,7 +52,7 @@ var PORT = process.env.PORT || 3000;
 // Sequelize
 //------------
 
-db.sequelize.sync().then(function () {
+db.sequelize.sync(/*{force:true}*/).then(function () {
     app.listen(PORT, function () {
         console.log('Listening on port ' + PORT);
     });

@@ -16,9 +16,11 @@ app.config(function ($routeProvider) {
         .when('/admin/dishes', {
             templateUrl: 'adminDishes.html',
             controller: 'adminDishCtrl'
-        }).when('/admin/console', {
+        })
+        .when('/admin/console', {
             templateUrl: 'adminConsole.html',
-        }).when('/admin/orders', {
+        })
+        .when('/admin/orders', {
             templateUrl: 'adminOrders.html',
             controller: adminOrders
         });

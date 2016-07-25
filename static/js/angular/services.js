@@ -86,4 +86,29 @@ app.service('subscriberService', ['$http', function ($http) {
 
         return promise;
     }
+
+}]);
+
+app.service('reviewService', ['$http', function($http){
+
+    this.GetAllReviews = function (id){
+        console.log('dishid:' + id);
+        var promise = $http.get('/api/review/' + id).then(function (reviews) {
+            return reviews.data;
+        }, function (err) {
+            console.log(err);
+        });
+        return promise;
+    }
+
+    this.CreateReview = function(review){
+        var promise = $http.post('api/review', review).then(function (data) {
+            return data;
+        }, function (err) {
+            console.log(err);
+        });
+
+        return promise;
+    }
+
 }]);

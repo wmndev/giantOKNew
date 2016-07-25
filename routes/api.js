@@ -53,7 +53,7 @@ exports.createDishes = function (req, res) {
     var data = req.body;
     for (var item in data) {
         console.log(item);
-        var object = _.pick(data[item], 'name', 'shortDesc', 'description','ingredients', 'isWeekly');
+        var object = _.pick(data[item], 'name', 'shortDesc', 'description', 'ingredients', 'isWeekly');
         var objectId = _.pick(data[item], 'id');
         db.dish.update(object, {
             where: objectId
@@ -77,6 +77,34 @@ exports.findDishById = function (req, res) {
 
 };
 
+
+exports.getReviews = function (req, res) {
+    var id = req.params.id;
+    console.log('dish-id-review:' + id);
+    db.review.findAll({
+        where: {
+            dish: id
+        },
+        order: [['id', 'ASC']]
+    }).then(function (reviews) {
+        res.json(reviews);
+    }, function (err) {
+        console.log(err);
+        res.status(500).send();
+    });
+}
+
+exports.createReview = function (req, res) {
+    var body = _.pick(req.body, 'email','name', 'content', 'dish', 'score');
+    console.info('Review recieved: ' + body);
+    db.review.create(body).then(function (review) {
+        console.info('Review persisted: ' + review.toJSON());
+        res.json(review);
+    }, function () {
+        return res.status(400).send();
+    });
+};
+
 exports.getDishes = function (req, res) {
     var isWeekly = req.query.isWeekly;
     if (isWeekly) {
@@ -91,7 +119,6 @@ exports.getDishes = function (req, res) {
         db.dish.findAll({
             order: [['id', 'ASC']]
         }).then(function (data) {
-            console.log('isEmpty: ' + _.isEmpty(data));
             if (_.isEmpty(data)) {
                 console.log('start from begining');
                 var object = {
@@ -117,21 +144,3 @@ exports.getDishes = function (req, res) {
         });
     }
 };
-
-//function buildDishObject(i, retObject, result) {
-//
-//    switch (i) {
-//    case 1:
-//        retObject.one = result;
-//        break;
-//    case 2:
-//        retObject.two = result;
-//        break;
-//    case 3:
-//        retObject.three = result;
-//        break;
-//    case 4:
-//        retObject.four = result;
-//        break;
-//    }
-//}

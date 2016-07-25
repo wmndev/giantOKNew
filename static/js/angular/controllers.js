@@ -16,7 +16,6 @@ function adminOrders($scope, orderService) {
 app.controller('adminDishCtrl', ['$scope', 'dishService', function ($scope, dishService) {
 
     dishService.GetAllDishes().then(function (dishes) {
-        console.log(dishes)
         $scope.dishes = dishes.data;
     });
 
@@ -25,10 +24,48 @@ app.controller('adminDishCtrl', ['$scope', 'dishService', function ($scope, dish
     }
 }]);
 
-function selectedDishCtrl($scope, $routeParams, $uibModal, dishService) {
-    dishService.GetSelectedDish($routeParams.id).then(function (dish) {
-        $scope.dish = dish;
-    });
+function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $location, dishService, reviewService) {
+    dishService.GetSelectedDish($routeParams.id)
+        .then(function (dish) {
+            $scope.dish = dish;
+        });
+
+    reviewService.GetAllReviews($routeParams.id)
+        .then(function (reviews) {
+            $scope.reviews = reviews;
+        });
+
+    $scope.gotoElementId = function (x) {
+        var newHash = x;
+        if ($location.hash() !== newHash) {
+            // set the $location.hash to `newHash` and
+            // $anchorScroll will automatically scroll to it
+            $location.hash(x);
+        } else {
+            // call $anchorScroll() explicitly,
+            // since $location.hash hasn't changed
+            $anchorScroll();
+        }
+    };
+
+    function initReviewSection() {
+        $scope.review = {
+            name: '',
+            content: '',
+            dish: $routeParams.id,
+            score: 4 /*TODO*/
+        }
+    }
+
+    initReviewSection();
+
+
+    $scope.addReview = function () {
+        reviewService.CreateReview($scope.review).then(function (newReview) {
+            $scope.reviews.push(newReview.data);
+            initReviewSection();
+        });
+    }
 
     $scope.items = ['item1', 'item2'];
     $scope.open = function (size) {
@@ -74,8 +111,6 @@ app.controller('navCtrl', ['$scope', '$uibModal', function ($scope, $uibModal) {
 
         modalInstance.result.then(function (selectedItem) {
             $scope.selected = selectedItem;
-        }, function () {
-            console.info('Modal dismissed at: ' + new Date());
         });
     }
 }]);
@@ -133,7 +168,6 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, 
         } else {
             subscriberService.Subscribe(dataObj).then(function (data) {
                 $scope.success = true;
-                console.log('subscription completed sucessfuly');
             });
         }
     };
