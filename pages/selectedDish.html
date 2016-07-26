@@ -8,7 +8,8 @@
     <h2 class="title" style="font-size:50px">{{ dish.name }}</h2>
 
     <div class="col-md-offset-2 col-md-8 text-center">
-        <p class="sub-title">{{ dish.shortDesc }}</p>
+        <!--        <p class="sub-title">{{ dish.shortDesc }}</p>-->
+        <p><small>{{ dish.shortDesc }}</small></p>
     </div>
 </div>
 
@@ -63,7 +64,7 @@
     <br>
     <br>
     <div class="container">
-        <h3>REVIEWS   <small><a ng-click="gotoElementId('addReview')" class="btn btn-default btn-lg defBtn" >ADD A REVIEW</a></small></h3>
+        <h3>REVIEWS</h3>
         <br>
         <div class="col-md-9">
             <div ng-repeat="review in reviews">
@@ -72,7 +73,8 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-left">{{review.name}}<small>   {{review.createdAt | date: 'MMM d, y HH:mm'}}</small></h3>
+                            <h3 class="panel-title text-left">{{review.name}}  <small>    {{review.createdAt | date: 'MMM d, y HH:mm'}} </small></h3>
+                            <small> <span ng-repeat="i in range.slice(0,review.score) track by $index" class="glyphicon glyphicon-heart" aria-hidden="true" />  </small>
                         </div>
                         <div class="panel-body">
                             <p class="text-muted">{{review.content}}</p>
@@ -81,6 +83,9 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <a ng-click="gotoElementId('addReview')" class="btn btn-default btn-lg defBtn" >ADD A REVIEW</a>
+        </div>
     </div>
 </div>
 
@@ -88,21 +93,49 @@
 <div id="addReview" class="row">
     <br>
     <div class="container">
+        <h3>ADD A REVIEW <small> ...</small></h3>
+        <br>
         <div>
-            <input type="name" title="Your Name" class="form-control" id="name" ng-model="review.name">
-            <br>
-            <textarea class="form-control" id="exampleTextarea" rows="4" ng-model="review.content"></textarea>
-            <a ng-click="addReview()" class="btn btn-info btn-lg defBtn">Add</a>
+            <div class="row-pad">
+                <input type="name" placeholder=" Enter your name here" title="Your Name" class="form-control" id="name" ng-model="review.name">
+            </div>
+
+            <div class="row-pad">
+                <div class="btn-group" role="group" aria-label="..." ng-init="score=0">
+                    <button ng-click="review.score = 1" ng-class="{'btn-selected': review.score===1}" ng-mouseover="label = ' I hate it'" ng-mouseleave="label =''" type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true" /></button>
+
+                    <button ng-click="review.score = 2" ng-class="{'btn-selected': review.score===2}" ng-mouseover="label = ' I don\'t like it'" ng-mouseleave="label =''" type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true" ng-repeat="i in range.slice(0,2) track by $index" /></button>
+
+                    <button ng-click="review.score = 3" ng-class="{'btn-selected': review.score===3}" ng-mouseover="label = ' It\'s okay'" ng-mouseleave="label =''" type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true" ng-repeat="i in range.slice(0,3) track by $index" /></button>
+
+                    <button ng-click="review.score = 4" ng-class="{'btn-selected': review.score===4}" ng-mouseover="label = 'I like it'" ng-mouseleave="label =''" type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true" ng-repeat="i in range.slice(0,4) track by $index" /></button>
+
+                    <button ng-click="review.score = 5" ng-class="{'btn-selected': review.score===5}" ng-mouseover="label = ' I love it'" ng-mouseleave="label =''" type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true" ng-repeat="i in range.slice(0,5) track by $index" /></button>
+                    <span>{{label}}</span>
+                </div>
+            </div>
+            <div class="row-pad">
+                <textarea placeholder="Write your review here" class="form-control" id="exampleTextarea" rows="4" ng-model="review.content"></textarea>
+            </div>
+            <div class="row-pad">
+                <a ng-disabled="disableAddReview()" ng-click="addReview()" class="btn btn-info btn-lg defBtn">ADD REVIEW</a>
+            </div>
         </div>
     </div>
 </div>
-
 <br>
 <br>
-
 
 
 <style>
+    .btn-selected {
+        background-color: #999999;
+    }
+
+    .row-pad {
+        margin-bottom: 10px;
+    }
+
     .advBtn {
         color: #1A1A1A;
         border-color: #FDD513;

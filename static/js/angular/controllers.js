@@ -48,17 +48,27 @@ function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $locat
         }
     };
 
+    $scope.disableAddReview = function(){
+        return $scope.review.name.length === 0 ||
+            $scope.review.score === 0 ||
+            $scope.review.content.length === 0;
+    }
+
+
     function initReviewSection() {
+        $scope.score = ''
         $scope.review = {
             name: '',
             content: '',
             dish: $routeParams.id,
-            score: 4 /*TODO*/
+            score: 0
         }
     }
 
     initReviewSection();
 
+
+    $scope.range = new Array(5); //max hearts possible
 
     $scope.addReview = function () {
         reviewService.CreateReview($scope.review).then(function (newReview) {
