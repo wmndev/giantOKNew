@@ -25,13 +25,14 @@ body {
     filter: blur(5px);
 }
 
- h1{
+h1 {
     font-family: Oswald, sans-serif;
     text-align: center;
 }
 
-h2, h3{
-  text-align: center;
+h2,
+h3 {
+    text-align: center;
 }
 
 #mainJumbotron {
@@ -48,7 +49,7 @@ h2, h3{
     font-size: 15px;
 }
 
-.defBtn{
+.defBtn {
     border: 2px solid;
     padding: 4px 20px;
     border-radius: 0;

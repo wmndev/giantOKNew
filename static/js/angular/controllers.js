@@ -13,6 +13,33 @@ function adminOrders($scope, orderService) {
     getOrders();
 }
 
+app.controller('orderController', ['$scope', '$http', 'dishService', 'orderService', function($scope, $http, dishService, orderService){
+    $scope.dish = dishService.GetDish();
+
+        $scope.submitOrder = function () {
+        var dataObj = {
+            email: $scope.email,
+            comments: $scope.comments
+        };
+        $scope.result = {
+            success: false,
+            msg: ''
+        };
+
+
+        $scope.submitted = true;
+            orderService.SubmitOrder(dataObj).then(function (data) {
+                $scope.result.success = true;
+                $scope.result.msg = 'Your order was submitted successfully! \n You should recieve an email confirmation to: ' +
+                    $scope.email + ' shortly.'
+            }, function (err) {
+                $scope.success = false;
+            });
+
+    };
+
+}]);
+
 app.controller('adminDishCtrl', ['$scope', 'dishService', function ($scope, dishService) {
 
     dishService.GetAllDishes().then(function (dishes) {

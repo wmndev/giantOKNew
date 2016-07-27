@@ -1,5 +1,11 @@
 app.service('dishService', ['$http', function ($http) {
 
+    var selectedDish;
+
+    this.GetDish = function (){
+        return selectedDish;
+    }
+
     this.GetAllDishes = function (isWeekly) {
         var params = {};
         if (typeof isWeekly !== 'undefined' &&
@@ -21,6 +27,7 @@ app.service('dishService', ['$http', function ($http) {
 
     this.GetSelectedDish = function (id) {
         var promise = $http.get('/api/dishes/' + id).then(function (dish) {
+            selectedDish = dish.data;
             return dish.data;
         }, function (err) {
             console.log(err);

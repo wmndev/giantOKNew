@@ -23,5 +23,9 @@ app.config(function ($routeProvider) {
         .when('/admin/orders', {
             templateUrl: 'adminOrders.html',
             controller: adminOrders
+        })
+        .when('/order', {
+            templateUrl: 'order.html',
+            controller: 'orderController'
         });
 });
