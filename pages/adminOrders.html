@@ -1,4 +1,5 @@
 <div class=container>
+    <br>
     <div>
         <a href="#/admin/console">Back to Console</a>
     </div>
@@ -7,10 +8,19 @@
             <h1 style="font-size:50px" class="page-header">{{orders.length}} Orders</h1>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <a ng-class="{'bg-primary': isActive}" href="" ng-click="getOrders(true)">Atvice   </a> | <a href="" ng-click="getOrders(false)" ng-class="{'bg-primary': !isActive }">All   </a>
+        </div>
+        <div class="col-sm-3">
+            <a ng-click="deactivateOrders()" href="" class="text-danger">DEACTIVATE</a>
+        </div>
+    </div>
+    <br>
     <div ng-repeat="order in orders">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-info">
+                <div class="panel" ng-class="{true: 'panel-primary', false: 'panel-default'}[order.active]">
                     <div class="panel-heading">
                         <h3 class="panel-title">{{order.email}}</h3>
                     </div>

@@ -4,7 +4,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [3, 255]
+                len: [5, 255]
             }
         },
         comments: {
@@ -14,6 +14,15 @@ module.exports = function (sequelize, DataTypes) {
         active: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
-        }
+        },
+        status: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        payment: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
     });
 }

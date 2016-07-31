@@ -1,5 +1,7 @@
 <div class="container-fluid">
-    <div id="dishImg"><img src="img/dish{{dish.id}}.jpg" alt="" class="img-responsive dishImg"></div>
+    <div class="row">
+        <div id="dishImg"><img src="img/dish{{dish.id}}.jpg" alt="" class="img-responsive dishImg"></div>
+    </div>
 </div>
 
 <br>
@@ -8,14 +10,10 @@
     <h2 class="title" style="font-size:50px">{{ dish.name }}</h2>
 
     <div class="col-md-offset-2 col-md-8 text-center">
-        <!--        <p class="sub-title">{{ dish.shortDesc }}</p>-->
         <p><small>{{ dish.shortDesc }}</small></p>
     </div>
 </div>
 
-<br>
-<br>
-<br>
 <br>
 <br>
 
@@ -23,7 +21,7 @@
     <div class="col-md-offset-3 col-md-6 text-center">
         <div class="clearfix">
             <div class="inline">
-                <a ng-show="dish.isWeekly" class="btn btn-default btn-lg myBtn advBtn" href="#/order">I WANT TO ORDER THIS - $10.00</a>
+                <a ng-show="dish.isWeekly" class="btn btn-default btn-lg myBtn advBtn" href="#/order">I WANT TO ORDER THIS - $10</a>
                 <a ng-click="gotoElementId('reviews')" class="btn btn-default btn-lg myBtn advBtn-blck">I WANT TO SEE THE REVIEWS</a>
             </div>
         </div>
@@ -37,7 +35,7 @@
 <div class="bck-row">
     <br/>
     <br/>
-    <h3>ABOUT THE MEAL</h3>
+    <h3>ABOUT</h3>
     <div class="container">
         <div class="row ">
             <div class="col-md-offset-2 col-md-8 text-center">
@@ -66,9 +64,8 @@
     <div class="container">
         <h3>REVIEWS</h3>
         <br>
-        <a ng-click="gotoElementId('addReview')" class="btn btn-default btn-lg defBtn" >ADD A REVIEW</a>
-        <br>
-        <div class="col-md-9">
+
+        <div class="col-md-12">
             <div ng-repeat="review in reviews">
 
                 <div class="row">
@@ -85,9 +82,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-
-        </div>
     </div>
 </div>
 
@@ -97,6 +91,7 @@
     <div class="container">
         <h3>ADD A REVIEW <small> ...</small></h3>
         <br>
+        <div ng-show="reviewResult.submitted" class="alert alert-success" role="alert">{{reviewResult.message}}</div>
         <div>
             <div class="row-pad">
                 <input type="name" placeholder=" Enter your name here" title="Your Name" class="form-control" id="name" ng-model="review.name">

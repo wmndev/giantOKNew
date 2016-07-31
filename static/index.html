@@ -23,7 +23,7 @@
     <script src="js/angular/services.js"></script>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href="css/main.css" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -50,46 +50,51 @@
 
 <body>
 
-    <!-- Navigation -->
-    <nav ng-controller="navCtrl" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#/">GiantOK</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
 
-                <li>
-                    <a href="#/dishes">Dishes</a>
-                </li>
-            </ul>
 
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="" ng-click="open('sm', false)">Subscribe</a>
-                </li>
+        <!-- Navigation -->
+        <nav ng-hide="isMainLocation()" ng-controller="navCtrl" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/">GiantOK</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
 
-                <li>
-                    <a href="#/admin/console">Admin</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+                    <li>
+                        <a href="#/dishes">Dishes</a>
+                    </li>
+                </ul>
 
-    <div ng-view></div>
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li>
+                        <a href="#/admin/console">Admin</a>
+                    </li>
+                </ul>
+            </div>
+                </div>
+        </nav>
+
+        <div ng-view></div>
 
     <!-- jQuery Version 1.11.1 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>-->
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+<!--   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 </body>
 

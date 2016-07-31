@@ -23,7 +23,9 @@ app.get('/', function (req, res) {
     res.sendfile(__dirname + '/index.html');
 });
 
-app.post('/api/order', api.order);
+app.post('/api/orders', api.order);
+
+app.patch('/api/orders', api.deactivateOrders);
 
 app.post('/api/subscribe',api.subscribe);
 

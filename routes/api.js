@@ -6,9 +6,8 @@ var email = require(__base + 'util/email.js');
 var exports = module.exports = {};
 
 exports.order = function (req, res) {
-    var body = _.pick(req.body, 'email', 'comments');
+    var body = _.pick(req.body, 'email', 'comments', 'status', 'payment');
     body.active = true;
-    console.info('Order recieved: ' + body);
     db.order.create(body).then(function (order) {
         console.info('Order persisted: ' + order.toJSON());
         email.sendOrderEmail(order.email);
@@ -19,17 +18,21 @@ exports.order = function (req, res) {
 };
 
 exports.getOrders = function (req, res) {
-    var active = req.query.isWeekly;
-    var whereClasuse = {}
+    var activeStr = req.query.active;
+    var whereClasuse = {order: [['id', 'DESC']]};
+    whereClasuse.where = {};
 
-    if (typeof active !== 'undefined' && typeof active !== null && active === 'boolean') {
-        whereClasuse.where = {
-            active: active
-        };
+    if (typeof activeStr !== 'undefined' && typeof activeStr !== null) {
+        if (activeStr === 'true') {
+            whereClasuse.where = {
+                active: true
+            };
+        }
     }
 
     db.order.findAll(whereClasuse).then(function (activeOrders) {
         res.json(activeOrders);
+
     }, function (err) {
         console.log(err);
         return res.status(400).send();
@@ -38,7 +41,6 @@ exports.getOrders = function (req, res) {
 
 exports.subscribe = function (req, res) {
     var body = _.pick(req.body, 'email');
-    console.info('Subscribe recieved: ' + body);
     db.subscribe.create(body).then(function (subscribe) {
         console.info('Subscribed persisted: ' + subscribe.toJSON());
         res.status(200).send();
@@ -48,11 +50,19 @@ exports.subscribe = function (req, res) {
     });
 }
 
+exports.deactivateOrders = function (req, res){
+    db.order.update({active: false}, {where:{active: true}}).then(function(data){
+        console.log('Deactivation completed!');
+        res.status(200).send();
+    },function(err){
+       return res.status(500).send();
+    });
+}
+
 
 exports.createDishes = function (req, res) {
     var data = req.body;
     for (var item in data) {
-        console.log(item);
         var object = _.pick(data[item], 'name', 'shortDesc', 'description', 'ingredients', 'isWeekly');
         var objectId = _.pick(data[item], 'id');
         db.dish.update(object, {
@@ -80,7 +90,6 @@ exports.findDishById = function (req, res) {
 
 exports.getReviews = function (req, res) {
     var id = req.params.id;
-    console.log('dish-id-review:' + id);
     db.review.findAll({
         where: {
             dish: id
@@ -95,8 +104,7 @@ exports.getReviews = function (req, res) {
 }
 
 exports.createReview = function (req, res) {
-    var body = _.pick(req.body, 'email','name', 'content', 'dish', 'score');
-    console.info('Review recieved: ' + body);
+    var body = _.pick(req.body, 'email', 'name', 'content', 'dish', 'score');
     db.review.create(body).then(function (review) {
         console.info('Review persisted: ' + review.toJSON());
         res.json(review);
@@ -120,7 +128,6 @@ exports.getDishes = function (req, res) {
             order: [['id', 'ASC']]
         }).then(function (data) {
             if (_.isEmpty(data)) {
-                console.log('start from begining');
                 var object = {
                     name: 'N/A',
                     shortDesc: 'N/A',

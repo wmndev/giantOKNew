@@ -1,25 +1,36 @@
 function adminOrders($scope, orderService) {
+    $scope.isActive = true;
 
-    $scope.active = true;
-
-    function getOrders() {
-        orderService.GetOrders($scope.active).then(function (activeOrders) {
+    var getOrders = function (isActive) {
+        $scope.isActive = isActive;
+        orderService.GetOrders(isActive).then(function (activeOrders) {
             $scope.orders = activeOrders.data;
         }, function (err) {
             console.log(err);
         });
     }
 
-    getOrders();
+    getOrders(true);
+
+
+    $scope.deactivateOrders = function () {
+        orderService.DeactivateOrders().then(function (data) {
+            getOrders(false);
+        });
+    }
+
+    $scope.getOrders = getOrders;
 }
 
-app.controller('orderController', ['$scope', '$http', 'dishService', 'orderService', function($scope, $http, dishService, orderService){
+app.controller('orderController', ['$scope', '$http', 'dishService', 'orderService', function ($scope, $http, dishService, orderService) {
     $scope.dish = dishService.GetDish();
 
-        $scope.submitOrder = function () {
+    $scope.submitOrder = function () {
         var dataObj = {
             email: $scope.email,
-            comments: $scope.comments
+            comments: $scope.comments,
+            status: 'Wait',
+            payment: 1
         };
         $scope.result = {
             success: false,
@@ -28,13 +39,13 @@ app.controller('orderController', ['$scope', '$http', 'dishService', 'orderServi
 
 
         $scope.submitted = true;
-            orderService.SubmitOrder(dataObj).then(function (data) {
-                $scope.result.success = true;
-                $scope.result.msg = 'Your order was submitted successfully! \n You should recieve an email confirmation to: ' +
-                    $scope.email + ' shortly.'
-            }, function (err) {
-                $scope.success = false;
-            });
+        orderService.SubmitOrder(dataObj).then(function (data) {
+            $scope.result.success = true;
+            $scope.result.msg = 'Your order was submitted successfully! \n You should recieve an email confirmation to: ' +
+                $scope.email + ' shortly.'
+        }, function (err) {
+            $scope.success = false;
+        });
 
     };
 
@@ -75,7 +86,7 @@ function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $locat
         }
     };
 
-    $scope.disableAddReview = function(){
+    $scope.disableAddReview = function () {
         return $scope.review.name.length === 0 ||
             $scope.review.score === 0 ||
             $scope.review.content.length === 0;
@@ -93,7 +104,9 @@ function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $locat
     }
 
     initReviewSection();
-
+    $scope.reviewResult = {
+        submitted: false
+    };
 
     $scope.range = new Array(5); //max hearts possible
 
@@ -101,6 +114,10 @@ function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $locat
         reviewService.CreateReview($scope.review).then(function (newReview) {
             $scope.reviews.push(newReview.data);
             initReviewSection();
+            $scope.reviewResult = {
+                submitted: true,
+                message: 'Thank you for your review'
+            }
         });
     }
 
@@ -128,7 +145,17 @@ function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $locat
     }
 }
 
-app.controller('navCtrl', ['$scope', '$uibModal', function ($scope, $uibModal) {
+app.controller('navCtrl', ['$scope', '$uibModal', '$location', function ($scope, $uibModal, $location) {
+
+    $scope.isMainLocation = function () {
+        return $location.path() === '/';
+    }
+}]);
+
+app.controller('mainController', ['$scope', '$uibModal', 'dishService', function ($scope, $uibModal, dishService) {
+    dishService.GetAllDishes(true).then(function (dish) {
+        $scope.dish = dish.data;
+    });
 
     $scope.items = ['item1', 'item2'];
     $scope.open = function (size, isOrder) {
@@ -150,12 +177,6 @@ app.controller('navCtrl', ['$scope', '$uibModal', function ($scope, $uibModal) {
             $scope.selected = selectedItem;
         });
     }
-}]);
-
-app.controller('mainController', ['$scope', '$uibModal', 'dishService', function ($scope, $uibModal, dishService) {
-    dishService.GetAllDishes(true).then(function (dish) {
-        $scope.dish = dish.data;
-    });
 }]);
 
 

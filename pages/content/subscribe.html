@@ -1,16 +1,37 @@
-<br/>
-<div ng-show="submitted" class=modal-header>
-    <div ng-show="success" class="alert alert-success" role="alert">We'll keep you posted</div>
-</div>
-<div class="modal-body">
-    <form role="form" ng-submit="submitOrder()">
-      <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input  type="email" class="form-control" id="exampleInputEmail1" ng-model="email">
-        <small class="text-muted">We'll never share your email with anyone else.</small>
-      </div>
+<div class="container">
+    <br/>
+    <div ng-show="submitted" class=modal-header>
+        <div ng-show="success" class="alert alert-success" role="alert">We'll keep you posted</div>
+    </div>
 
-      <button type="submit" class="btn btn-success btn-lg modalBtn myBtn" >JOIN</button>
-    </form>
+    <div class="modal-header">
+        <div class="text-center">SUBSCRIBE</div>
+
+    </div>
+    <div class="modal-body">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p><small>Join our mailing list to get GiantOK's weekly email
+                   and status updates of your order</small></p>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <input type="email" class="form-control" id="exampleInputEmail1" ng-model="email" placeholder="Put your email here">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="" style="width:100%" ng-click="submitOrder()" class="btn btn-primary btn-lg defBtn">Join</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br/>
 </div>
-<br/>

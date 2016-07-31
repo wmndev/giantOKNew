@@ -1,4 +1,5 @@
 var nodemailer = require('nodemailer');
+var inlineCss = require('nodemailer-juice');
 
 var transport = nodemailer.createTransport("SMTP", {
     service: 'Gmail',
@@ -7,6 +8,7 @@ var transport = nodemailer.createTransport("SMTP", {
         pass: 'zoobie11'
     }
 });
+//transport.use('compile', inlineCss());
 
 console.log('SMTP Configured');
 

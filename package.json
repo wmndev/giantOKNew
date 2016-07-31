@@ -12,6 +12,7 @@
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "nodemailer": "^0.7.1",
+    "nodemailer-juice": "^1.0.0",
     "pg": "^6.0.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.23.4",
