@@ -24,6 +24,10 @@ app.config(function ($routeProvider) {
             templateUrl: 'adminOrders.html',
             controller: adminOrders
         })
+        .when('/admin/notifications', {
+            templateUrl: 'adminNotifications.html',
+            controller: adminNotifications
+        })
         .when('/order', {
             templateUrl: 'order.html',
             controller: 'orderController'

@@ -2,7 +2,7 @@ app.service('dishService', ['$http', function ($http) {
 
     var selectedDish;
 
-    this.GetDish = function (){
+    this.GetDish = function () {
         return selectedDish;
     }
 
@@ -37,8 +37,7 @@ app.service('dishService', ['$http', function ($http) {
 
 
     this.SubmitDishes = function (dishes) {
-        $http.post('api/dishes', dishes).then(function (data) {
-        }, function (err) {
+        $http.post('api/dishes', dishes).then(function (data) {}, function (err) {
             console.log(err);
         });
     }
@@ -77,9 +76,8 @@ app.service('orderService', ['$http', function ($http) {
         return promise;
     }
 
-    this.DeactivateOrders = function(){
-        var promise = $http.patch('api/orders').then(function(data){
-        }, function (err) {
+    this.DeactivateOrders = function () {
+        var promise = $http.patch('api/orders').then(function (data) {}, function (err) {
             console.log(err);
         });
 
@@ -92,7 +90,7 @@ app.service('orderService', ['$http', function ($http) {
 app.service('subscriberService', ['$http', function ($http) {
 
     this.Subscribe = function (details) {
-        var promise = $http.post('api/subscribe', details).then(function (data) {
+        var promise = $http.post('api/subscribes', details).then(function (data) {
             return data;
         }, function (err) {
             console.log(err);
@@ -101,11 +99,32 @@ app.service('subscriberService', ['$http', function ($http) {
         return promise;
     }
 
+    this.GetAllSubscribers = function () {
+        var promise = $http.get('api/subscribes').then(function (data) {
+            return data;
+        }, function (error) {
+            console.log(error);
+        });
+        return promise;
+    }
+
 }]);
 
-app.service('reviewService', ['$http', function($http){
+app.service('emailService', ['$http', function ($http) {
+    this.SendEmail = function (data) {
+        var promise = $http.post('/api/email/', data).then(function (response) {
+            return response;
+        }, function (err) {
+            console.log(err);
+        });
+        return promise;
+    }
 
-    this.GetAllReviews = function (id){
+}]);
+
+app.service('reviewService', ['$http', function ($http) {
+
+    this.GetAllReviews = function (id) {
         var promise = $http.get('/api/review/' + id).then(function (reviews) {
             return reviews.data;
         }, function (err) {
@@ -114,7 +133,7 @@ app.service('reviewService', ['$http', function($http){
         return promise;
     }
 
-    this.CreateReview = function(review){
+    this.CreateReview = function (review) {
         var promise = $http.post('api/review', review).then(function (data) {
             return data;
         }, function (err) {

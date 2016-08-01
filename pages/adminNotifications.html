@@ -1,0 +1,42 @@
+<div class="container">
+    <br>
+    <div class="row">
+        <a href="#/admin/console">Back to Console</a>
+    </div>
+    <br>
+    <div class="row">
+        <a class="btn btn-primary btn-lg consoleBtn myBtn" href="" ng-click="getActiveEmails('Prepared')">Order is Prepared</a>
+        <a class="btn btn-primary btn-lg consoleBtn myBtn" href="" ng-click="getActiveEmails('Ready')">Order is Ready</a>
+        <a class="btn btn-primary btn-lg consoleBtn myBtn" href="" ng-click="getAllSubscribers('costumized')">Costumized Notification</a>
+    </div>
+
+    <br>
+    <div ng-show="data.length > 0">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>The message</h1>
+
+                <textarea style="width:100%" id="messageText" rows="6" ng-model="message"></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <h1>Will be sent to the followings:</h1>
+            <ul class="list-group" ng-repeat="item in data">
+                <li class="list-group-item">{{item}}</li>
+            </ul>
+        </div>
+
+        <br>
+        <div class="row">
+            <a class="btn btn-success btn-lg consoleBtn myBtn" href="" ng-click="sendMail()">Send mail</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .consoleBtn {
+        border-color: black;
+        color: black;
+    }
+</style>

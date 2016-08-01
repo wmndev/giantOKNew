@@ -27,7 +27,9 @@ app.post('/api/orders', api.order);
 
 app.patch('/api/orders', api.deactivateOrders);
 
-app.post('/api/subscribe',api.subscribe);
+app.post('/api/subscribes',api.subscribe);
+
+app.get('/api/subscribes',api.getAllSubscribers);
 
 app.post('/api/review', api.createReview );
 
@@ -40,6 +42,8 @@ app.get('/api/dishes', api.getDishes);
 app.get('/api/orders', api.getOrders);
 
 app.get('/api/review/:id', api.getReviews);
+
+app.post('/api/email', api.sendEmail)
 
 
 app.get('*', function (req, res) {

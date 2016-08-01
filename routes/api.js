@@ -10,11 +10,21 @@ exports.order = function (req, res) {
     body.active = true;
     db.order.create(body).then(function (order) {
         console.info('Order persisted: ' + order.toJSON());
-        email.sendOrderEmail(order.email);
+        email.sendConfirmOrderMail(order.email);
         res.status(200).send();
     }, function () {
         return res.status(400).send();
     });
+};
+
+exports.sendEmail = function(req, res){
+    var body = _.pick(req.body, 'content', 'to', 'action');
+    if (body.action === 'Prepared'){
+        email.sendOrderPreparedMail(body);
+        res.status(200).send();
+    }
+
+
 };
 
 exports.getOrders = function (req, res) {
@@ -47,6 +57,15 @@ exports.subscribe = function (req, res) {
     }, function (err) {
         console.log(err);
         return res.status(400).send();
+    });
+}
+
+exports.getAllSubscribers = function (req, res){
+    db.subscribe.findAll().then(function(data){
+        res.json(data);
+    }, function(err){
+        console.log(err);
+        return res.status(500).send();
     });
 }
 

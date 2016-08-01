@@ -22,6 +22,75 @@ function adminOrders($scope, orderService) {
     $scope.getOrders = getOrders;
 }
 
+function adminNotifications($scope, orderService, subscriberService, emailService) {
+
+    var messages = {
+        orderPrepared: {
+            content: '<h3><b>Dear customer,</b></h3>' +
+                '<p>Just letting you know that your order is being prepared</p><br>' +
+                '<p>We appriciate your business, <br> Yuval and the team</p><br>' +
+                '<a href="https://giantok.herokuapp.com">GiantOK</a>, Make Lunch Great Again!'
+        },
+        orderReady: {
+            content: '<h3><b>Dear customer,</b></h3>' +
+                '<p>Just letting you know that your order is ready and waiting for you in the kitchen</p><br>' +
+                '<p>We appriciate your business, <br> Yuval and the team</p><br>' +
+                '<a href="https://giantok.herokuapp.com">GiantOK</a>, Make Lunch Great Again!'
+        },
+        costumize: {
+            content: 'Enter your content'
+        }
+    };
+
+
+
+    $scope.getActiveEmails = function (action) {
+         $scope.data = [];
+        orderService.GetOrders(true).then(function (activeOrders) {
+            activeOrders.data.forEach(function (item) {
+                $scope.data.push(item.email);
+            });
+
+            $scope.action = action;
+            if (action === 'Prepared') {
+                $scope.message = messages.orderPrepared.content;
+            } else {
+                $scope.message = messages.orderReady.content;
+            }
+        }, function (err) {
+            console.log(err);
+        });
+    }
+
+    $scope.getAllSubscribers = function (action) {
+         $scope.data = [];
+        subscriberService.GetAllSubscribers().then(function (subscribers) {
+            subscribers.data.forEach(function (item) {
+                $scope.data.push(item.email);
+            });
+
+            $scope.action = action;
+            $scope.message = messages.costumize.content;
+        }, function (err) {
+            console.log(err);
+        });
+    }
+
+    $scope.sendMail = function () {
+        var data = {
+            content: $scope.message,
+            to: $scope.data,
+            action: $scope.action
+        }
+
+        emailService.SendEmail(data).then();
+
+
+
+    }
+
+}
+
 app.controller('orderController', ['$scope', '$http', 'dishService', 'orderService', function ($scope, $http, dishService, orderService) {
     $scope.dish = dishService.GetDish();
 
@@ -29,7 +98,7 @@ app.controller('orderController', ['$scope', '$http', 'dishService', 'orderServi
         var dataObj = {
             email: $scope.email,
             comments: $scope.comments,
-            status: 'Wait',
+            status: 'Intial',
             payment: 1
         };
         $scope.result = {
