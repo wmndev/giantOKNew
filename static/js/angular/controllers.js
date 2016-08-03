@@ -1,3 +1,15 @@
+function loginController($scope, $location, authenticationService){
+
+    $scope.authenticate = function(){
+        var isAuth = authenticationService.AuthenticateUsingCredentials($scope.username, $scope.password);
+        if (isAuth){
+            $location.path('/admin/console');
+        }
+    }
+
+
+}
+
 function adminOrders($scope, orderService) {
     $scope.isActive = true;
 

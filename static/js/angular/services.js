@@ -45,7 +45,6 @@ app.service('dishService', ['$http', function ($http) {
 
 
 app.service('orderService', ['$http', function ($http) {
-
     this.GetOrders = function (isActive) {
         var params = {};
         if (typeof isActive !== 'undefined' &&
@@ -72,7 +71,6 @@ app.service('orderService', ['$http', function ($http) {
         }, function (err) {
             console.log(err);
         });
-
         return promise;
     }
 
@@ -80,7 +78,6 @@ app.service('orderService', ['$http', function ($http) {
         var promise = $http.patch('api/orders').then(function (data) {}, function (err) {
             console.log(err);
         });
-
         return promise;
     }
 
@@ -143,4 +140,14 @@ app.service('reviewService', ['$http', function ($http) {
         return promise;
     }
 
+}]);
+
+
+app.service('authenticationService', ['$http', '$rootScope', function($http, $rootScope){
+    this.AuthenticateUsingCredentials = function(username, password){
+        var isAuth =  username === 'giantok' &&
+            password === 'Zoobie1';
+        $rootScope.isAuth = isAuth;
+        return isAuth;
+    }
 }]);
