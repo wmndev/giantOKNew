@@ -1,5 +1,4 @@
 <br>
-
 <div class="container">
     <div ng-show="result.success" class="alert alert-success" role="alert">
     {{result.msg}}
@@ -18,16 +17,16 @@
 				</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-xs-2"><img class="img-responsive" src="img/dish{{dish.id}}.jpg">
+						<div class="col-xs-2"><img class="img-responsive" src="img/dish{{dish.id}}.png">
 						</div>
-						<div class="col-xs-6">
+						<div class="col-xs-5">
 							<h4 class="product-name"><strong>{{dish.name}}</strong></h4><h4><small>{{dish.shortDesc}}</small></h4>
 						</div>
-						<div class="col-xs-4">
+						<div class="col-xs-5">
 							<div class="col-xs-6 text-right">
-								<h6><strong>10.00 <span class="text-muted"> X</span></strong></h6>
+								<h6><strong>$10 <span class="text-muted">X</span></strong></h6>
 							</div>
-							<div class="col-xs-6">
+							<div class="col-xs-6 align-left">
 								<input type="text" class="form-control input-sm text-center" ng-init="quantity = 1" ng-model="quantity">
 							</div>
 						</div>
@@ -48,14 +47,12 @@
 
 				</div>
 				<div class="panel-footer">
-					<div class="row">
+					<div class="row text-right">
 						<div class="col-xs-8">
 							<h4 class="text-right">Total <strong>${{quantity * 10.00}}</strong></h4>
 						</div>
 						<div class="col-xs-4">
-							<button type="button" ng-click="submitOrder()" class="btn btn-success btn-lg modalBtn myBtn">
-								CHECKOUT
-							</button>
+							<button type="button" ng-click="submitOrder()" class="btn btn-success btn-md modalBtn">CHECKOUT</button>
 						</div>
 					</div>
 				</div>
