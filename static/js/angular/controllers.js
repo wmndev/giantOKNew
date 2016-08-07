@@ -1,8 +1,8 @@
-function loginController($scope, $location, authenticationService){
+function loginController($scope, $location, authenticationService) {
 
-    $scope.authenticate = function(){
+    $scope.authenticate = function () {
         var isAuth = authenticationService.AuthenticateUsingCredentials($scope.username, $scope.password);
-        if (isAuth){
+        if (isAuth) {
             $location.path('/admin/console');
         }
     }
@@ -57,7 +57,7 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
 
 
     $scope.getActiveEmails = function (action) {
-         $scope.data = [];
+        $scope.data = [];
         orderService.GetOrders(true).then(function (activeOrders) {
             activeOrders.data.forEach(function (item) {
                 $scope.data.push(item.email);
@@ -75,7 +75,7 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
     }
 
     $scope.getAllSubscribers = function (action) {
-         $scope.data = [];
+        $scope.data = [];
         subscriberService.GetAllSubscribers().then(function (subscribers) {
             subscribers.data.forEach(function (item) {
                 $scope.data.push(item.email);
@@ -96,14 +96,11 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
         }
 
         emailService.SendEmail(data).then();
-
-
-
     }
 
 }
 
-app.controller('orderController', ['$scope', '$http', 'dishService', 'orderService', function ($scope, $http, dishService, orderService) {
+app.controller('orderController', ['$scope', '$http', 'dishService', 'orderService', '$localStorage', function ($scope, $http, dishService, orderService, $localStorage) {
     $scope.dish = dishService.GetDish();
 
     $scope.submitOrder = function () {
@@ -111,13 +108,13 @@ app.controller('orderController', ['$scope', '$http', 'dishService', 'orderServi
             email: $scope.email,
             comments: $scope.comments,
             status: 'Intial',
-            payment: 1
+            payment: 1,
+            dishName: $scope.dish.name
         };
         $scope.result = {
             success: false,
             msg: ''
         };
-
 
         $scope.submitted = true;
         orderService.SubmitOrder(dataObj).then(function (data) {
@@ -127,9 +124,29 @@ app.controller('orderController', ['$scope', '$http', 'dishService', 'orderServi
         }, function (err) {
             $scope.success = false;
         });
-
     };
 
+    $scope.isDisbleButton = function () {
+        return ($scope.email === '' || $scope.email === undefined);
+    };
+
+    var costumData = {};
+
+    $scope.costumDataJson = '';
+
+    //$watches
+    //--------
+    $scope.$watch('comments', function () {
+        costumData.comments = $scope.comments;
+        $scope.costumDataJson = JSON.stringify(costumData);
+        console.log($scope.costumDataJson);
+    });
+
+    $scope.$watch('email', function () {
+        costumData.email = $scope.email;
+        $scope.costumDataJson = JSON.stringify(costumData);
+        console.log($scope.costumDataJson);
+    });
 }]);
 
 app.controller('adminDishCtrl', ['$scope', 'dishService', function ($scope, dishService) {
@@ -266,6 +283,54 @@ app.controller('dishesController', ['$scope', 'dishService', function ($scope, d
     dishService.GetAllDishes().then(function (dishes) {
         $scope.dishes = dishes.data;
     });
+}]);
+
+
+app.controller('confirmationController', ['$scope', '$location', 'orderService', function ($scope, $location, orderService) {
+
+    /*
+    Typical returned URL:
+        http://127.0.0.1:3000/#/order/confirmation/paypal?amt=0.01&cc=USD&charset=windows-1252&cm=%7B%22comments%22:%22mycommets!!%22,%22email%22:%22itaywiseman@gmail.com%22%7D&item_name=BLACK%20BEAN%20%26%20CHEESE%20ENCHILADA&st=Completed&tx=0J18242325718591X
+    */
+
+    var params = $location.search();
+
+    var st = params.st;
+    var tx = params.tx;
+
+    if (st === '' || st === undefined || tx === '' || tx === undefined) {
+
+    } else {
+        var userDetails = JSON.parse($location.search().cm);
+        var dishName = params.item_name;
+        console.log(userDetails.email + '   ' + userDetails.comments);
+
+        var params = {
+            email: userDetails.email,
+            comments: userDetails.comments,
+            status: 'Initial',
+            payment: 2,
+            dishName: dishName
+        };
+        createNewOrder(params);
+    }
+
+    $scope.result = {
+        success: false,
+        msg: ''
+    };
+
+    function createNewOrder(params) {
+        orderService.SubmitOrder(params).then(function (data) {
+            $scope.result.success = true;
+            $scope.result.msg = 'Your order was submitted successfully! \n You should recieve an email confirmation to: ' +
+                $scope.email + ' shortly.'
+        }, function (err) {
+            $scope.success = false;
+            $scope.result.msg = 'Oooops! Something went wrong here!!\n' +
+                'Do not worry, your order will be ready on time - Just contact the chef please!'
+        });
+    }
 }]);
 
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, isOrder, orderService, subscriberService) {

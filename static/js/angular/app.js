@@ -1,4 +1,4 @@
-var app = angular.module('giantApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap']);
+var app = angular.module('giantApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap','ngStorage']);
 
 app.run(['$anchorScroll', function ($anchorScroll) {
     $anchorScroll.yOffset = 20; // always scroll by 20 extra pixels

@@ -6,13 +6,14 @@ var email = require(__base + 'util/email.js');
 var exports = module.exports = {};
 
 exports.order = function (req, res) {
-    var body = _.pick(req.body, 'email', 'comments', 'status', 'payment');
+    var body = _.pick(req.body, 'email', 'comments', 'status', 'payment', 'dishName');
     body.active = true;
     db.order.create(body).then(function (order) {
         console.info('Order persisted: ' + order.toJSON());
         email.sendConfirmOrderMail(order.email);
         res.status(200).send();
-    }, function () {
+    }, function (err) {
+        console.log(err);
         return res.status(400).send();
     });
 };

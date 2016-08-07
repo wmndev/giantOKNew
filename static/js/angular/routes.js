@@ -1,6 +1,4 @@
 app.config(function ($routeProvider) {
-    //$rootScope.isAuth = false;
-
     $routeProvider
         .when('/', {
             templateUrl: 'main.html',
@@ -39,6 +37,11 @@ app.config(function ($routeProvider) {
         .when('/order', {
             templateUrl: 'order.html',
             controller: 'orderController',
+            authenticated: false
+        })
+        .when('/order/confirmation/paypal', {
+            templateUrl: 'confirmation.html',
+            controller: 'confirmationController',
             authenticated: false
         })
         .when('/user/LoginUser', {
