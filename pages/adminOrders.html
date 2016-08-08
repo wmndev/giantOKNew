@@ -25,11 +25,15 @@
                         <h3 class="panel-title">{{order.email}}</h3>
                     </div>
                     <div class="panel-body">
+                        <b>Dish:</b>
+                        <p class="text-muted">{{order.dishName}}</p>
                         <b>Comments: </b>
                         <p class="text-muted">{{order.comments}}</p>
+                        <b>Payment: </b>
+                        <p ng-show="order.payment == 1" class="text-muted">Cash ${{order.amount}}</p>
+                        <p ng-show="order.payment == 2" class="text-muted">PayPal ${{order.amount}}</p>
                         <b>Created on: </b>
                         <div class="text-muted">{{order.createdAt | date: 'MMM d, y HH:mm'}}</div>
-
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ var email = require(__base + 'util/email.js');
 var exports = module.exports = {};
 
 exports.order = function (req, res) {
-    var body = _.pick(req.body, 'email', 'comments', 'status', 'payment', 'dishName');
+    var body = _.pick(req.body, 'email', 'comments', 'status', 'payment', 'dishName', 'amount');
     body.active = true;
     db.order.create(body).then(function (order) {
         console.info('Order persisted: ' + order.toJSON());
@@ -18,19 +18,17 @@ exports.order = function (req, res) {
     });
 };
 
-exports.sendEmail = function(req, res){
-    var body = _.pick(req.body, 'content', 'to', 'action');
-    if (body.action === 'Prepared'){
-        email.sendOrderPreparedMail(body);
-        res.status(200).send();
-    }
-
-
+exports.sendEmail = function (req, res) {
+    var body = _.pick(req.body, 'content', 'to', 'action', 'subject');
+    email.sendOrderActionMail(body);
+    res.status(200).send();
 };
 
 exports.getOrders = function (req, res) {
     var activeStr = req.query.active;
-    var whereClasuse = {order: [['id', 'DESC']]};
+    var whereClasuse = {
+        order: [['id', 'DESC']]
+    };
     whereClasuse.where = {};
 
     if (typeof activeStr !== 'undefined' && typeof activeStr !== null) {
@@ -61,21 +59,27 @@ exports.subscribe = function (req, res) {
     });
 }
 
-exports.getAllSubscribers = function (req, res){
-    db.subscribe.findAll().then(function(data){
+exports.getAllSubscribers = function (req, res) {
+    db.subscribe.findAll().then(function (data) {
         res.json(data);
-    }, function(err){
+    }, function (err) {
         console.log(err);
         return res.status(500).send();
     });
 }
 
-exports.deactivateOrders = function (req, res){
-    db.order.update({active: false}, {where:{active: true}}).then(function(data){
+exports.deactivateOrders = function (req, res) {
+    db.order.update({
+        active: false
+    }, {
+        where: {
+            active: true
+        }
+    }).then(function (data) {
         console.log('Deactivation completed!');
         res.status(200).send();
-    },function(err){
-       return res.status(500).send();
+    }, function (err) {
+        return res.status(500).send();
     });
 }
 

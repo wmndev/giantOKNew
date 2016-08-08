@@ -11,7 +11,7 @@
                     <div class="panel-title">
                         <div class="row">
                             <div class="col-xs-6">
-                                <h5><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</h5>
+                                <h5><span class="glyphicon glyphicon-shopping-cart"></span> Order your lunch</h5>
                             </div>
                         </div>
                     </div>
@@ -43,23 +43,23 @@
                     <hr>
                     <div class="row">
                         <div class="col-xs-12">
-                            <textarea placeholder="Enter your comments here (low carbs, extra protein etc)" class="form-control" id="exampleTextarea" rows="3" ng-model="comments"></textarea>
+                            <textarea placeholder="Special Instructions (low carbs, extra protein etc)" class="form-control" id="exampleTextarea" rows="3" ng-model="comments"></textarea>
                         </div>
                     </div>
                     <hr>
                 </div>
                 <div class="panel-footer">
-                    <div class="row text-right">
-                        <div class="col-xs-offset-4 col-xs-2">
-                            <h4 class="text-center">Total <strong>${{quantity * 10.00}}</strong></h4>
+                    <div class="row text-left">
+                        <div class="col-xs-2">
+                            <h4 class="text-center big-font"><strong>${{quantity * 10.00}}</strong></h4>
                         </div>
-                        <div class="col-xs-2"></div>
+                        <div class="col-xs-6"></div>
                         <div class="col-xs-4">
                             <div class="btn-group inline clearfix pull-right">
 
                                 <button type="button" ng-disabled="isDisbleButton()" ng-click="submitOrder()" class="btn btn-success btn-md myOrderBtn">&nbsp &nbsp PAY WITH CASH </button>
                                 <div class="text-center"><strong>OR</strong></div>
-                                <paypal-button business="yuvalby@gmail.com" item-name="{{dish.name}}" amount="0.01"></paypal-button>
+                                <paypal-button business="yuvalby@gmail.com" item-name="{{dish.name}}" amount="10.00"></paypal-button>
 
                             </div>
 
@@ -78,5 +78,10 @@
         padding: 8px 30px;
         border-radius: 0;
         font-size: 13px;
+    }
+
+    .big-font{
+        font-size: 55px;
+
     }
 </style>

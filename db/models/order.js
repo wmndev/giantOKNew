@@ -26,6 +26,10 @@ module.exports = function (sequelize, DataTypes) {
         dishName: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        amount:{
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
 
     });

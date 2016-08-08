@@ -2,6 +2,9 @@
     <source src="video/Food-1094.mp4" type="video/mp4">Your browser does not support the video tag. I suggest you upgrade your browser.
 </video>
 
+
+<div id="wrapper"  />
+
 <!-- Jumbotron Header -->
 <header id="mainJumbotron" class="jumbotron hero-spacer">
     <h1>MAKE LUNCH GREAT AGAIN!</h1>
@@ -22,3 +25,23 @@
     <p>
     </p>
 </header>
+
+<style>
+    @media (max-width: 640px) {
+        #wrapper {
+            background: url(img/kitchen.jpg) !important;
+            background-size: cover;
+            background-position: center;
+            position: fixed;
+
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+        }
+        video {
+            display: none;
+        }
+    }
+</style>

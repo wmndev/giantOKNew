@@ -28,13 +28,7 @@ var messages = {
             '<p>Our cooking squad is getting ready to deliever another hearty meal.<br>' +
             '<p>We appriciate your business, <br> Yuval and the team</p><br>' +
             '<a href="https://giantok.herokuapp.com">GiantOK</a>, Make Lunch Great Again!'
-    },
-    orderPrepared: {
-        from: 'The Giant Chef <gokchef@gmail.com>',
-        subject: 'GiantOK - Order is being prepared',
     }
-
-
 };
 
 
@@ -44,17 +38,25 @@ var sendConfirmOrderMail = function (toEmail) {
     sendMail(messages.confirmEmail);
 }
 
-var sendOrderPreparedMail = function (data) {
+var sendOrderActionMail = function (data) {
     console.log('in sendOrderPreparedMail');
     var to = [];
-        data.to.forEach(function (email) {
-            to += '\"Costumer\" ' + '<' + email + '>;'
-        });
+    data.to.forEach(function (email) {
+        to += '\"Costumer\" ' + '<' + email + '>;'
+    });
 
-    console.log('to: '+ to );
-    messages.orderPrepared.to = to;
-    messages.orderPrepared.html = data.content;
-    sendMail(messages.orderPrepared);
+    console.log('to: ' + to);
+
+    var message = {
+        from: 'The Giant Chef <gokchef@gmail.com>',
+        subject: data.subject,
+        to: to,
+        html: data.content
+    };
+
+    console.log(message);
+
+    sendMail(message);
 }
 
 function sendMail(message) {
@@ -72,4 +74,4 @@ function sendMail(message) {
 var exports = module.exports = {};
 
 exports.sendConfirmOrderMail = sendConfirmOrderMail;
-exports.sendOrderPreparedMail = sendOrderPreparedMail;
+exports.sendOrderActionMail = sendOrderActionMail;

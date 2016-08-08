@@ -38,18 +38,21 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
 
     var messages = {
         orderPrepared: {
+            subject: 'GiantOK - Your order is being prepared',
             content: '<h3><b>Dear customer,</b></h3>' +
                 '<p>Just letting you know that your order is being prepared</p><br>' +
                 '<p>We appriciate your business, <br> Yuval and the team</p><br>' +
                 '<a href="https://giantok.herokuapp.com">GiantOK</a>, Make Lunch Great Again!'
         },
         orderReady: {
+            subject: 'GiantOK - Your orderis waiting for you in the kitchen',
             content: '<h3><b>Dear customer,</b></h3>' +
                 '<p>Just letting you know that your order is ready and waiting for you in the kitchen</p><br>' +
                 '<p>We appriciate your business, <br> Yuval and the team</p><br>' +
                 '<a href="https://giantok.herokuapp.com">GiantOK</a>, Make Lunch Great Again!'
         },
         costumize: {
+            subject: 'GiantOK - An important message from your chef',
             content: 'Enter your content'
         }
     };
@@ -59,15 +62,19 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
     $scope.getActiveEmails = function (action) {
         $scope.data = [];
         orderService.GetOrders(true).then(function (activeOrders) {
+            console.log(activeOrders);
             activeOrders.data.forEach(function (item) {
-                $scope.data.push(item.email);
+                if ($scope.data.indexOf(item.email)==-1)
+                    $scope.data.push(item.email);
             });
 
             $scope.action = action;
             if (action === 'Prepared') {
                 $scope.message = messages.orderPrepared.content;
+                $scope.subject = messages.orderPrepared.subject;
             } else {
                 $scope.message = messages.orderReady.content;
+                $scope.subject = messages.orderReady.subject;
             }
         }, function (err) {
             console.log(err);
@@ -78,11 +85,13 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
         $scope.data = [];
         subscriberService.GetAllSubscribers().then(function (subscribers) {
             subscribers.data.forEach(function (item) {
-                $scope.data.push(item.email);
+                if ($scope.data.indexOf(item.email)==-1)
+                    $scope.data.push(item.email);
             });
 
             $scope.action = action;
             $scope.message = messages.costumize.content;
+            $scope.subject = messages.costumize.subject;
         }, function (err) {
             console.log(err);
         });
@@ -92,8 +101,11 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
         var data = {
             content: $scope.message,
             to: $scope.data,
-            action: $scope.action
+            action: $scope.action,
+            subject: $scope.subject
         }
+
+        console.log(data);
 
         emailService.SendEmail(data).then();
     }
@@ -109,7 +121,8 @@ app.controller('orderController', ['$scope', '$http', 'dishService', 'orderServi
             comments: $scope.comments,
             status: 'Intial',
             payment: 1,
-            dishName: $scope.dish.name
+            dishName: $scope.dish.name,
+            amount: 10
         };
         $scope.result = {
             success: false,
@@ -251,6 +264,7 @@ app.controller('navCtrl', ['$scope', '$uibModal', '$location', function ($scope,
 }]);
 
 app.controller('mainController', ['$scope', '$uibModal', 'dishService', function ($scope, $uibModal, dishService) {
+
     dishService.GetAllDishes(true).then(function (dish) {
         $scope.dish = dish.data;
     });
@@ -293,42 +307,45 @@ app.controller('confirmationController', ['$scope', '$location', 'orderService',
         http://127.0.0.1:3000/#/order/confirmation/paypal?amt=0.01&cc=USD&charset=windows-1252&cm=%7B%22comments%22:%22mycommets!!%22,%22email%22:%22itaywiseman@gmail.com%22%7D&item_name=BLACK%20BEAN%20%26%20CHEESE%20ENCHILADA&st=Completed&tx=0J18242325718591X
     */
 
+    $scope.result = {
+        success: false,
+        msg: ''
+    };
+
+
     var params = $location.search();
 
     var st = params.st;
     var tx = params.tx;
 
     if (st === '' || st === undefined || tx === '' || tx === undefined) {
-
+            $scope.result.success = false;
+            $scope.result.msg = 'Something went wrong here!!\n' +
+                'Are you sure you have completed the process with PayPal..?';
     } else {
         var userDetails = JSON.parse($location.search().cm);
         var dishName = params.item_name;
-        console.log(userDetails.email + '   ' + userDetails.comments);
 
         var params = {
             email: userDetails.email,
             comments: userDetails.comments,
             status: 'Initial',
             payment: 2,
-            dishName: dishName
+            dishName: dishName,
+            amount: params.amt
         };
         createNewOrder(params);
     }
-
-    $scope.result = {
-        success: false,
-        msg: ''
-    };
 
     function createNewOrder(params) {
         orderService.SubmitOrder(params).then(function (data) {
             $scope.result.success = true;
             $scope.result.msg = 'Your order was submitted successfully! \n You should recieve an email confirmation to: ' +
-                $scope.email + ' shortly.'
+                params.email + ' shortly.'
         }, function (err) {
-            $scope.success = false;
-            $scope.result.msg = 'Oooops! Something went wrong here!!\n' +
-                'Do not worry, your order will be ready on time - Just contact the chef please!'
+            $scope.result.success = false;
+            $scope.result.msg = 'Something went wrong here!!\n' +
+                'Do not worry, your order is safe with us and will be ready on time - Just CONTACT the CHEF PLEASE!'
         });
     }
 }]);

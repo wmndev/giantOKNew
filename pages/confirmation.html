@@ -1,1 +1,42 @@
-<h1>CONFIRMATION</h1>
+<div class="container">
+    <div ng-show="result.success">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>THANK YOU FOR YOUR ORDER!</h1>
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm-12 alert alert-success text-center">
+                {{result.msg}}
+            </div>
+
+        </div>
+    </div>
+
+    <div ng-hide="result.success">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>OOOOPPPPSSS....</h1>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm-12 alert alert-danger text-center">
+            {{result.msg}}
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+        <a class="btn btn-lg btn-default defBtn" href="#/dishes">TAKE ME BACK TO THE DISHES</a>
+    </div>
+</div>
