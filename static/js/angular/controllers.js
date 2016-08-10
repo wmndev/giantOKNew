@@ -271,12 +271,12 @@ app.controller('mainController', ['$scope', '$uibModal', 'dishService', function
 
     $scope.items = ['item1', 'item2'];
     $scope.open = function (size, isOrder) {
-        var template = 'content/subscribe.html'
         var modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: template,
+            templateUrl: 'content/subscribe.html',
             controller: 'ModalInstanceCtrl',
             size: size,
+//            windowClass: 'center-modal',
             resolve: {
                 items: function () {
                     return $scope.items;
