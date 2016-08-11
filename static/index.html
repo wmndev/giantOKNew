@@ -79,6 +79,26 @@
 
                 <ul class="nav navbar-nav navbar-right">
 
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="">Subscribe<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <br>
+                            </li>
+                            <li class="text-center" style="font-weight: lighter"><small>Join our mailing list to get GiantOK's weekly email and status updates of your order</small>
+                                <br>
+                            </li>
+                            <li>
+                                <br>
+                            </li>
+                            <li>
+                                <input type="email" placeholder="Enter your email here" ng-model="email" />
+                            </li>
+
+                            <li><a href="" ng-click="subscribeUser()" class="btn btn-sm btn-primary defBtn">Join</a></li>
+
+                        </ul>
+                    </li>
+
                     <li>
                         <a href="#/admin/console">Admin</a>
                     </li>
@@ -98,6 +118,12 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <style>
+        .dropdown-menu {
+            min-width: 200px;
+        }
+    </style>
 
 </body>
 

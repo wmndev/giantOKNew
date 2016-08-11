@@ -256,11 +256,25 @@ function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $locat
     }
 }
 
-app.controller('navCtrl', ['$scope', '$uibModal', '$location', function ($scope, $uibModal, $location) {
+app.controller('navCtrl', ['$scope', '$uibModal', '$location','subscriberService', function ($scope, $uibModal, $location, subscriberService) {
 
     $scope.isMainLocation = function () {
         return $location.path() === '/';
     }
+
+   $scope.subscribeUser = function () {
+       console.log('in sub');
+        var dataObj = {
+            email: $scope.email
+        };
+
+
+            subscriberService.Subscribe(dataObj).then(function (data) {
+                $scope.success = true;
+                console.log('done sub');
+            });
+    };
+
 }]);
 
 app.controller('mainController', ['$scope', '$uibModal', 'dishService', function ($scope, $uibModal, dishService) {
