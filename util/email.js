@@ -50,7 +50,7 @@ var sendOrderActionMail = function (data) {
     var message = {
         from: 'The Giant Chef <gokchef@gmail.com>',
         subject: data.subject,
-        to: to,
+        bcc: to,
         html: data.content
     };
 
