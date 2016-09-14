@@ -64,7 +64,7 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
         orderService.GetOrders(true).then(function (activeOrders) {
             console.log(activeOrders);
             activeOrders.data.forEach(function (item) {
-                if ($scope.data.indexOf(item.email)==-1)
+                if ($scope.data.indexOf(item.email) == -1)
                     $scope.data.push(item.email);
             });
 
@@ -85,7 +85,7 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
         $scope.data = [];
         subscriberService.GetAllSubscribers().then(function (subscribers) {
             subscribers.data.forEach(function (item) {
-                if ($scope.data.indexOf(item.email)==-1)
+                if ($scope.data.indexOf(item.email) == -1)
                     $scope.data.push(item.email);
             });
 
@@ -197,14 +197,16 @@ function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $locat
         }
     };
 
+
     $scope.disableAddReview = function () {
         return $scope.review.name.length === 0 ||
             $scope.review.score === 0 ||
-            $scope.review.content.length === 0;
+            $scope.review.content.length === 0 || $scope.charsLeft < 0;
     }
 
 
     function initReviewSection() {
+        $scope.charsLeft = 255;
         $scope.score = ''
         $scope.review = {
             name: '',
@@ -230,7 +232,11 @@ function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $locat
                 message: 'Thank you for your review'
             }
         });
-    }
+    };
+
+    $scope.writingReview = function () {
+        $scope.charsLeft = (255 - $scope.review.content.length);
+    };
 
     $scope.items = ['item1', 'item2'];
     $scope.open = function (size) {
@@ -256,23 +262,23 @@ function selectedDishCtrl($scope, $routeParams, $uibModal, $anchorScroll, $locat
     }
 }
 
-app.controller('navCtrl', ['$scope', '$uibModal', '$location','subscriberService', function ($scope, $uibModal, $location, subscriberService) {
+app.controller('navCtrl', ['$scope', '$uibModal', '$location', 'subscriberService', function ($scope, $uibModal, $location, subscriberService) {
 
     $scope.isMainLocation = function () {
         return $location.path() === '/';
     }
 
-   $scope.subscribeUser = function () {
-       console.log('in sub');
+    $scope.subscribeUser = function () {
+        console.log('in sub');
         var dataObj = {
             email: $scope.email
         };
 
 
-            subscriberService.Subscribe(dataObj).then(function (data) {
-                $scope.success = true;
-                console.log('done sub');
-            });
+        subscriberService.Subscribe(dataObj).then(function (data) {
+            $scope.success = true;
+            console.log('done sub');
+        });
     };
 
 }]);
@@ -290,7 +296,7 @@ app.controller('mainController', ['$scope', '$uibModal', 'dishService', function
             templateUrl: 'content/subscribe.html',
             controller: 'ModalInstanceCtrl',
             size: size,
-//            windowClass: 'center-modal',
+            //            windowClass: 'center-modal',
             resolve: {
                 items: function () {
                     return $scope.items;
@@ -333,9 +339,9 @@ app.controller('confirmationController', ['$scope', '$location', 'orderService',
     var tx = params.tx;
 
     if (st === '' || st === undefined || tx === '' || tx === undefined) {
-            $scope.result.success = false;
-            $scope.result.msg = 'Something went wrong here!!\n' +
-                'Are you sure you have completed the process with PayPal..?';
+        $scope.result.success = false;
+        $scope.result.msg = 'Something went wrong here!!\n' +
+            'Are you sure you have completed the process with PayPal..?';
     } else {
         var userDetails = JSON.parse($location.search().cm);
         var dishName = params.item_name;

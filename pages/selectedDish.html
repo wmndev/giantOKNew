@@ -116,10 +116,11 @@
                 </div>
             </div>
             <div class="row-pad">
-                <textarea placeholder="Write your review here" class="form-control" id="exampleTextarea" rows="4" ng-model="review.content"></textarea>
+                <textarea ng-change="writingReview()" placeholder="Write your review here" class="form-control" id="exampleTextarea" rows="4" ng-model="review.content"></textarea>
             </div>
             <div class="row-pad">
-                <a ng-disabled="disableAddReview()" ng-click="addReview()" class="btn btn-info btn-lg defBtn">ADD REVIEW</a>
+                <a ng-disabled="disableAddReview()"  ng-click="addReview()" class="btn btn-info btn-lg defBtn">ADD REVIEW</a>
+                 <label ng-class="{'text-danger' : charsLeft < 0}">{{charsLeft}}</label>
             </div>
         </div>
     </div>
