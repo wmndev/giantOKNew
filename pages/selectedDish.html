@@ -93,9 +93,9 @@
 <div id="addReview" class="row">
     <br>
     <div class="container">
+        <div ng-show="reviewResult.submitted" class="alert alert-success" role="alert">{{reviewResult.message}}</div>
         <h3>ADD A REVIEW <small> ...</small></h3>
         <br>
-        <div ng-show="reviewResult.submitted" class="alert alert-success" role="alert">{{reviewResult.message}}</div>
         <div>
             <div class="row-pad">
                 <input type="name" placeholder=" Enter your name here" title="Your Name" class="form-control" id="name" ng-model="review.name">
@@ -118,9 +118,15 @@
             <div class="row-pad">
                 <textarea ng-change="writingReview()" placeholder="Write your review here" class="form-control" id="exampleTextarea" rows="4" ng-model="review.content"></textarea>
             </div>
-            <div class="row-pad">
-                <a ng-disabled="disableAddReview()"  ng-click="addReview()" class="btn btn-info btn-lg defBtn">ADD REVIEW</a>
-                 <label ng-class="{'text-danger' : charsLeft < 0}">{{charsLeft}}</label>
+            <div class="row row-pad">
+                <div class="col-sm-2">
+                    <a ng-disabled="disableAddReview()" ng-click="addReview()" class="btn btn-info btn-lg defBtn">ADD REVIEW</a>
+                </div>
+                <div class="col-sm-10 pull-left">
+                    <label ng-class="{'text-danger' : charsLeft < 0}">{{charsLeft}}</label>
+
+                </div>
+
             </div>
         </div>
     </div>
