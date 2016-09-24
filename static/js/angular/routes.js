@@ -44,6 +44,11 @@ app.config(function ($routeProvider) {
             controller: 'confirmationController',
             authenticated: false
         })
+        .when('/order/confirmation/', {
+            templateUrl: 'confirmation.html',
+            controller: 'confirmationController',
+            authenticated: false
+        })
         .when('/user/LoginUser', {
             templateUrl: 'loginUser.html',
             controller: loginController,

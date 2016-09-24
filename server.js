@@ -27,6 +27,8 @@ app.post('/api/orders', api.order);
 
 app.patch('/api/orders', api.deactivateOrders);
 
+app.patch('/api/orders/:id', api.updateOrder);
+
 app.post('/api/subscribes',api.subscribe);
 
 app.get('/api/subscribes',api.getAllSubscribers);

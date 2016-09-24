@@ -1,42 +1,41 @@
 <div class="container">
-    <div ng-show="result.success">
+    <div>
         <div class="row">
             <div class="col-sm-12 text-center">
                 <h1>THANK YOU FOR YOUR ORDER!</h1>
             </div>
-
         </div>
-
         <br>
 
-        <div class="row">
+
+        <div class="row" ng-show="result.isDone">
             <div class="col-sm-12 alert alert-success text-center">
                 {{result.msg}}
             </div>
+        </div>
+
+
+        <div ng-hide="result.isDone">
+            <div class="row text-center">
+
+                <h4>Please choose your payment method</h4>
+                <br/>
+                <div>
+                    <button type="button" ng-disabled="isDisbleButton()" ng-click="completeTransaction(false)" class="btn btn-success btn-md myOrderBtn defBtn">&nbsp PAY WITH CASH &nbsp</button>
+                    <div>
+                        <br/>
+                        <paypal-button business="yuvalby@gmail.com" item-name="{{dishName}}" amount="10.00"></paypal-button>
+                    </div>
+                </div>
+            </div>
+            <br/>
 
         </div>
     </div>
 
-    <div ng-hide="result.success">
-        <div class="row">
-            <div class="col-sm-12 text-center">
-                <h1>OOOOPPPPSSS....</h1>
-            </div>
+    <div class="row" ng-show="result.isDone">
+        <div class="col-sm-4 col-sn-offset-4">
+            <a class="btn btn-lg btn-default defBtn" href="#/dishes">TAKE ME BACK TO THE DISHES</a>
         </div>
-
-        <br>
-
-        <div class="row">
-            <div class="col-sm-12 alert alert-danger text-center">
-            {{result.msg}}
-            </div>
-        </div>
-    </div>
-
-
-
-
-    <div class="row">
-        <a class="btn btn-lg btn-default defBtn" href="#/dishes">TAKE ME BACK TO THE DISHES</a>
     </div>
 </div>

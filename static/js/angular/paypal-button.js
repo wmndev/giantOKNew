@@ -44,10 +44,10 @@ app.directive('paypalButton', function() {
           '<input type="hidden" name="business" value="' + business + '">' +
           '<input type="hidden" name="currency_code" value="' + currencyCode + '">' +
           '<input type="hidden" name="item_name" value="' + itemName + '">' +
-          '<input type="hidden" name="amount" ng-value="quantity * 10.00">' +
+          '<input type="hidden" name="amount" ng-value="totalAmt">' +
 //             '<input type="hidden" name="amount" value="0.01">' +
             '<input type="hidden" name="custom" ng-value="costumDataJson">' +
-          '<button ng-disabled="isDisbleButton()" type="submit" type="button" class="btn btn-primary btn-md myOrderBtn">PAY WITH PAYPAL</button>' +
+          '<button ng-click="completeTransaction(true)" ng-disabled="isDisbleButton()" type="submit" type="button" class="btn btn-primary btn-md myOrderBtn defBtn">PAY WITH PAYPAL</button>' +
           '</form>';
         element.append(template);
       }

@@ -11,7 +11,7 @@ exports.order = function (req, res) {
     db.order.create(body).then(function (order) {
         console.info('Order persisted: ' + order.toJSON());
         email.sendConfirmOrderMail(order.email);
-        res.status(200).send();
+        res.json(order);
     }, function (err) {
         console.log(err);
         return res.status(400).send();
@@ -81,6 +81,27 @@ exports.deactivateOrders = function (req, res) {
     }, function (err) {
         return res.status(500).send();
     });
+}
+
+exports.updateOrder = function(req, res){
+    var orderId = req.params.id;
+
+    var isPayPal = req.query.paypal;
+    var isComplete = req.query.complete
+    console.log('>>>>>>>>isPayPal:' + isPayPal + '>>>>>> isComplete:'+isComplete);
+    db.order.update({
+        payment: isPayPal === 'true'? 2: 1,
+        status: isComplete === 'true' ? 'Complete' : 'Payment Pending'
+    },{
+        where: {
+            id: orderId
+        }
+    }).then(function(data){
+        res.json(data);
+    }, function(err){
+        console.log(err);
+        return res.status(500).send();
+    })
 }
 
 

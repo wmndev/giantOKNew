@@ -67,6 +67,7 @@ app.service('orderService', ['$http', function ($http) {
 
     this.SubmitOrder = function (order) {
         var promise = $http.post('api/orders', order).then(function (data) {
+            console.log('submit order: ' + data);
             return data;
         }, function (err) {
             console.log(err);
@@ -75,12 +76,39 @@ app.service('orderService', ['$http', function ($http) {
     }
 
     this.DeactivateOrders = function () {
-        var promise = $http.patch('api/orders').then(function (data) {}, function (err) {
+        var promise = $http.patch('api/orders').then(function (data) {
+        }, function (err) {
             console.log(err);
         });
         return promise;
     }
 
+    this.updateOrder = function(id, complete, paypal){
+        var params = {};
+        if (typeof complete !== 'undefined' &&
+            complete !== null &&
+            typeof complete === 'boolean') {
+            params.complete = complete;
+        }
+        if (typeof paypal !== 'undefined' &&
+            paypal !== null &&
+            typeof paypal === 'boolean') {
+            params.paypal = paypal;
+        }
+        console.log(params);
+
+        var promise = $http({
+            method: 'PATCH',
+            url: 'api/orders/' + id,
+            params: params
+        }).then(function (data) {
+            return data;
+        }, function (err) {
+            console.log(err);
+        });
+
+        return promise;
+    }
 }]);
 
 

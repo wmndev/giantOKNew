@@ -6,8 +6,6 @@ function loginController($scope, $location, authenticationService) {
             $location.path('/admin/console');
         }
     }
-
-
 }
 
 function adminOrders($scope, orderService) {
@@ -62,7 +60,6 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
     $scope.getActiveEmails = function (action) {
         $scope.data = [];
         orderService.GetOrders(true).then(function (activeOrders) {
-            console.log(activeOrders);
             activeOrders.data.forEach(function (item) {
                 if ($scope.data.indexOf(item.email) == -1)
                     $scope.data.push(item.email);
@@ -107,12 +104,16 @@ function adminNotifications($scope, orderService, subscriberService, emailServic
 
         console.log(data);
 
-        emailService.SendEmail(data).then();
+        emailService.SendEmail(data).then(function (data) {
+            console.log('OK - sent email:' + data);
+        }, function (err) {
+            console('Error - sent email:' + err);
+        });
     }
 
 }
 
-app.controller('orderController', ['$scope', '$http', 'dishService', 'orderService', '$localStorage', function ($scope, $http, dishService, orderService, $localStorage) {
+app.controller('orderController', ['$scope', '$rootScope', '$http', 'dishService', 'orderService', '$localStorage', '$location', function ($scope, $rootScope, $http, dishService, orderService, $localStorage, $location) {
     $scope.dish = dishService.GetDish();
 
     $scope.submitOrder = function () {
@@ -120,9 +121,9 @@ app.controller('orderController', ['$scope', '$http', 'dishService', 'orderServi
             email: $scope.email,
             comments: $scope.comments,
             status: 'Intial',
-            payment: 1,
+            payment: 0,
             dishName: $scope.dish.name,
-            amount: 10
+            amount: ($scope.quantity * 10)
         };
         $scope.result = {
             success: false,
@@ -131,9 +132,10 @@ app.controller('orderController', ['$scope', '$http', 'dishService', 'orderServi
 
         $scope.submitted = true;
         orderService.SubmitOrder(dataObj).then(function (data) {
-            $scope.result.success = true;
-            $scope.result.msg = 'Your order was submitted successfully! \n You should recieve an email confirmation to: ' +
-                $scope.email + ' shortly.'
+            $rootScope.order = data.data;
+            //            console.log(data.data.id);
+
+            $location.path('/order/confirmation');
         }, function (err) {
             $scope.success = false;
         });
@@ -269,7 +271,6 @@ app.controller('navCtrl', ['$scope', '$uibModal', '$location', 'subscriberServic
     }
 
     $scope.subscribeUser = function () {
-        console.log('in sub');
         var dataObj = {
             email: $scope.email
         };
@@ -277,7 +278,6 @@ app.controller('navCtrl', ['$scope', '$uibModal', '$location', 'subscriberServic
 
         subscriberService.Subscribe(dataObj).then(function (data) {
             $scope.success = true;
-            console.log('done sub');
         });
     };
 
@@ -320,53 +320,50 @@ app.controller('dishesController', ['$scope', 'dishService', function ($scope, d
 }]);
 
 
-app.controller('confirmationController', ['$scope', '$location', 'orderService', function ($scope, $location, orderService) {
+app.controller('confirmationController', ['$scope', '$rootScope', '$location', 'orderService', function ($scope, $rootScope, $location, orderService) {
 
     /*
-    Typical returned URL:
+    PAYPAL: Typical returned URL:
         http://127.0.0.1:3000/#/order/confirmation/paypal?amt=0.01&cc=USD&charset=windows-1252&cm=%7B%22comments%22:%22mycommets!!%22,%22email%22:%22itaywiseman@gmail.com%22%7D&item_name=BLACK%20BEAN%20%26%20CHEESE%20ENCHILADA&st=Completed&tx=0J18242325718591X
     */
 
     $scope.result = {
+        isDone: false,
         success: false,
         msg: ''
     };
 
-
-    var params = $location.search();
-
-    var st = params.st;
-    var tx = params.tx;
-
-    if (st === '' || st === undefined || tx === '' || tx === undefined) {
-        $scope.result.success = false;
-        $scope.result.msg = 'Something went wrong here!!\n' +
-            'Are you sure you have completed the process with PayPal..?';
-    } else {
-        var userDetails = JSON.parse($location.search().cm);
-        var dishName = params.item_name;
-
-        var params = {
-            email: userDetails.email,
-            comments: userDetails.comments,
-            status: 'Initial',
-            payment: 2,
-            dishName: dishName,
-            amount: params.amt
-        };
-        createNewOrder(params);
+    console.log($rootScope.order);
+    if ($rootScope.order !== undefined) {
+        $scope.totalAmt = $rootScope.order.amount;
+        $scope.dishName = $rootScope.order.dishName;
     }
 
-    function createNewOrder(params) {
-        orderService.SubmitOrder(params).then(function (data) {
-            $scope.result.success = true;
-            $scope.result.msg = 'Your order was submitted successfully! \n You should recieve an email confirmation to: ' +
-                params.email + ' shortly.'
-        }, function (err) {
-            $scope.result.success = false;
-            $scope.result.msg = 'Something went wrong here!!\n' +
-                'Do not worry, your order is safe with us and will be ready on time - Just CONTACT the CHEF PLEASE!'
-        });
+    console.log($location.path().indexOf('paypal'));
+    if ($location.path().indexOf('paypal') > 0) {
+        showCompleteDetails();
+    }
+
+    $scope.completeTransaction = function (isPayPal) {
+        if (isPayPal) {
+            var costumData = {
+                id: $rootScope.order.id
+            };
+            $scope.costumDataJson = JSON.stringify(costumData);
+        }
+        orderService.updateOrder($rootScope.order.id, false, isPayPal).then(
+            function (data) {
+                if (!isPayPal) {
+                    showCompleteDetails();
+                }
+            });
+    }
+
+    function showCompleteDetails() {
+        console.log('showCompleteDetails');
+        $scope.result.isDone = true;
+        $scope.result.msg = 'Your order was submitted successfully!';
+        $scope.result.success = true;
     }
 }]);
 
