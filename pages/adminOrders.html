@@ -15,13 +15,16 @@
         <div class="col-sm-3">
             <a ng-click="deactivateOrders()" href="" class="text-danger">DEACTIVATE</a>
         </div>
+        <div class="col-sm-6">
+             <a href="" class="btn btn-success btn-lg" ng-click="updateOrders()">Complete</a>
+        </div>
     </div>
     <br>
     <div ng-repeat="order in orders">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel" ng-class="{true: 'panel-primary', false: 'panel-default'}[order.active]">
-                    <div class="panel-heading">
+                    <div class="panel-heading inline">
                         <h3 class="panel-title">{{order.email}}</h3>
                     </div>
                     <div class="panel-body">
@@ -36,6 +39,11 @@
                         <p class="text-muted">{{order.status}}</p>
                         <b>Created on: </b>
                         <div class="text-muted">{{order.createdAt | date: 'MMM d, y HH:mm'}}</div>
+                        <div ng-hide="order.status === 'Completed'" class="checkbox"  style="padding-left:0 !important">
+                            <label>
+                                <input type="checkbox" id="complete" ng-model="order.complete"> Complete Order
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -91,7 +91,7 @@ exports.updateOrder = function(req, res){
     console.log('>>>>>>>>isPayPal:' + isPayPal + '>>>>>> isComplete:'+isComplete);
     db.order.update({
         payment: isPayPal === 'true'? 2: 1,
-        status: isComplete === 'true' ? 'Complete' : 'Payment Pending'
+        status: isComplete === 'true' ? 'Completed' : 'Payment Pending'
     },{
         where: {
             id: orderId

@@ -29,6 +29,17 @@ function adminOrders($scope, orderService) {
         });
     }
 
+    $scope.updateOrders = function () {
+        $scope.orders.forEach(function (order) {
+            if (order.complete) {
+                orderService.updateOrder(order.id, true, false).then(function (data) {
+                    getOrders(false);
+                });
+            }
+        });
+
+    }
+
     $scope.getOrders = getOrders;
 }
 
@@ -133,7 +144,6 @@ app.controller('orderController', ['$scope', '$rootScope', '$http', 'dishService
         $scope.submitted = true;
         orderService.SubmitOrder(dataObj).then(function (data) {
             $rootScope.order = data.data;
-            //            console.log(data.data.id);
 
             $location.path('/order/confirmation');
         }, function (err) {
@@ -333,13 +343,11 @@ app.controller('confirmationController', ['$scope', '$rootScope', '$location', '
         msg: ''
     };
 
-    console.log($rootScope.order);
     if ($rootScope.order !== undefined) {
         $scope.totalAmt = $rootScope.order.amount;
         $scope.dishName = $rootScope.order.dishName;
     }
 
-    console.log($location.path().indexOf('paypal'));
     if ($location.path().indexOf('paypal') > 0) {
         showCompleteDetails();
     }
@@ -351,7 +359,7 @@ app.controller('confirmationController', ['$scope', '$rootScope', '$location', '
             };
             $scope.costumDataJson = JSON.stringify(costumData);
         }
-        orderService.updateOrder($rootScope.order.id, false, isPayPal).then(
+        orderService.updateOrder($rootScope.order.id, isPayPal, isPayPal).then(
             function (data) {
                 if (!isPayPal) {
                     showCompleteDetails();
@@ -360,7 +368,6 @@ app.controller('confirmationController', ['$scope', '$rootScope', '$location', '
     }
 
     function showCompleteDetails() {
-        console.log('showCompleteDetails');
         $scope.result.isDone = true;
         $scope.result.msg = 'Your order was submitted successfully!';
         $scope.result.success = true;
