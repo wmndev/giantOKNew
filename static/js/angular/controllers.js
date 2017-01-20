@@ -134,7 +134,7 @@ app.controller('orderController', ['$scope', '$rootScope', '$http', 'dishService
             status: 'Intial',
             payment: 0,
             dishName: $scope.dish.name,
-            amount: ($scope.quantity * 10)
+            amount: ($scope.quantity * 12)
         };
         $scope.result = {
             success: false,
